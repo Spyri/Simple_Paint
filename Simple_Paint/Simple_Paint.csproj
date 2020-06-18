@@ -50,6 +50,7 @@
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
+        <Compile Include="Command\ImageCommand.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="ViewModel\SimplePaintViewModel.cs" />
         <Page Include="MainWindow.xaml">
@@ -81,9 +82,6 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Command" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
