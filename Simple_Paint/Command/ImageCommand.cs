@@ -15,16 +15,18 @@ namespace Simple_Paint.Command
             _simplePaintViewModel = simplePaintViewModel;
         }
 
-        public void makeblack(byte[] b)
+        public void clearAll()
         {
-            for (int i = 0; i < b.Length; i++)
+            for (int i = 0; i < SimplePaintViewModel.ImageData.Length; i++)
             {
-                b[i] = Convert.ToByte(255);
+                SimplePaintViewModel.ImageData[i] = Convert.ToByte(255);
             }
+            _simplePaintViewModel.UpdateImage();
         }
 
-        public void makepixelblack(int x,int y, int pt)
+        public void paint_Pixel(int x,int y, int pt)
         {
+            int j = 0;
             int loop = pt;
             while (loop != 0)
             {
@@ -32,7 +34,9 @@ namespace Simple_Paint.Command
                 for (int i = temp; i < temp + 4 * pt; i++)
                 {
                     if (i < 0) continue;
-                    SimplePaintViewModel.ImageData[i] = Convert.ToByte(0);
+                    SimplePaintViewModel.ImageData[i] = SimplePaintViewModel.currentColour[j];
+                    j++;
+                    if (j == 4) j = 0;
                 }
 
                 _simplePaintViewModel.UpdateImage();

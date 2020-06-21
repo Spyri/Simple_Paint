@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Data;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -28,18 +30,21 @@ namespace Simple_Paint.ViewModel
         public static int height { get; set; }
         public static int stride { get; set; }
         public static ImageCommand IC { get; set; }
+        public static byte[] currentColour { get; set; }
         
         
 
         public SimplePaintViewModel()
         {
-            
-            width = 1000;
-            height = 1000;
+            currentColour = new byte[4];
+            currentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
+            width = 300;
+            height = 300;
             IC = new ImageCommand(this);
             stride = 4 * width;
             ImageData = new byte[height*stride];
-            IC.makeblack(ImageData);
+            Imagesource = BitmapSource.Create(width,height,800,800, PixelFormats.Bgr32, null,ImageData,stride);
+            IC.clearAll();
             Imagesource = BitmapSource.Create(width,height,800,800, PixelFormats.Bgr32, null,ImageData,stride);
         }
         
@@ -48,9 +53,14 @@ namespace Simple_Paint.ViewModel
             Imagesource = BitmapSource.Create(Imagesource.PixelWidth,Imagesource.PixelHeight,Imagesource.DpiX,Imagesource.DpiY,Imagesource.Format,Imagesource.Palette,ImageData,Imagesource.PixelWidth*4);
         }
 
-        public static void makepixelblack(int x, int y, int pt)
+        public static void paint_Pixel(int x, int y, int pt)
         {
-            IC.makepixelblack(x,y,pt);
+            IC.paint_Pixel(x,y,pt);
+        }
+
+        public static void clear()
+        {
+            IC.clearAll();
         }
         
         

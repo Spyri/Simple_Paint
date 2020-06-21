@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Management.Instrumentation;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -27,8 +29,70 @@ namespace Simple_Paint
                 BitmapSource bitmapSource = (BitmapSource) bit;
                 int x = (int) (e.GetPosition(image).X * bitmapSource.PixelWidth / image.ActualWidth);
                 int y = (int) (e.GetPosition(image).Y * bitmapSource.PixelHeight / image.ActualHeight);
-                SimplePaintViewModel.makepixelblack(x, y, pt);
+                SimplePaintViewModel.paint_Pixel(x, y, pt);
             }
+        }
+
+
+        private void Red_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[1] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[2] = Convert.ToByte(255);
+            SimplePaintViewModel.currentColour[3] = Convert.ToByte(0);
+        }
+
+        private void Green_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[1] = Convert.ToByte(255);
+            SimplePaintViewModel.currentColour[2] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[3] = Convert.ToByte(0);
+        }
+
+        private void Black_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[1] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[2] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[3] = Convert.ToByte(0);
+        }
+
+        private void White_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(255);
+            SimplePaintViewModel.currentColour[1] = Convert.ToByte(255);
+            SimplePaintViewModel.currentColour[2] = Convert.ToByte(255);
+            SimplePaintViewModel.currentColour[3] = Convert.ToByte(0);
+        }
+
+        private void Blue_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(255);
+            SimplePaintViewModel.currentColour[1] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[2] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[3] = Convert.ToByte(0);
+        }
+
+        private void DarkGreen_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[1] = Convert.ToByte(100);
+            SimplePaintViewModel.currentColour[2] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[3] = Convert.ToByte(0);
+        }
+
+        private void Fuchsia_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(255);
+            SimplePaintViewModel.currentColour[1] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[2] = Convert.ToByte(255);
+            SimplePaintViewModel.currentColour[3] = Convert.ToByte(0);
+        }
+
+        private void Clear(object sender, RoutedEventArgs e)
+        {
+          SimplePaintViewModel.clear();  
         }
     }
 }

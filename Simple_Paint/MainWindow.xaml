@@ -19,13 +19,21 @@
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="0" Grid.Row="0" Background="Red"/>
-        <Button Grid.Column="1" Grid.Row="0" Background="Green"/>
-        <Button Grid.Column="2" Grid.Row="0" Background="Black"/>
-        <Button Grid.Column="3" Grid.Row="0" Background="White"/>
-        <ComboBox Name="point" Grid.Column="4" Grid.Row="0" SelectedIndex="0"> 
+        <Button Grid.Column="0" Grid.Row="0" Background="Red" Click="Red_OnClick"/>
+        <Button Grid.Column="1" Grid.Row="0" Background="Lime" Click="Green_OnClick" />
+        <Button Grid.Column="2" Grid.Row="0" Background="Blue" Click="Blue_OnClick" />
+        <Button Grid.Column="3" Grid.Row="0" Background="DarkGreen" Click="DarkGreen_OnClick" />
+        <Button Grid.Column="4" Grid.Row="0" Background="Fuchsia" Click="Fuchsia_OnClick" />
+        <Button Grid.Column="5" Grid.Row="0" Background="Black" Click="Black_OnClick" />
+        <Button Grid.Column="6" Grid.Row="0" Background="White" Click="White_OnClick" />
+        <Button Grid.Column="7" Grid.Row="0" Content="CLEAR" BorderThickness="2" Click="Clear" />
+        <ComboBox Name="point" Grid.Column="8" Grid.Row="0" SelectedIndex="0"> 
             <ComboBoxItem Content="1"/>
             <ComboBoxItem Content="5"/>
             <ComboBoxItem Content="10"/>
@@ -37,6 +45,6 @@
             
         </ComboBox>    
         
-        <Image Name="image" Stretch="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove"/>
+        <Image Name="image" Stretch="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="9" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove"/>
     </Grid>
 </Window>
