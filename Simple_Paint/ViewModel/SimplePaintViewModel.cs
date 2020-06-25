@@ -13,6 +13,7 @@ namespace Simple_Paint.ViewModel
     public class SimplePaintViewModel : INotifyPropertyChanged
     {
         private BitmapSource _imagesource;
+        private string _ptr;
 
         public BitmapSource Imagesource
         {
@@ -31,15 +32,16 @@ namespace Simple_Paint.ViewModel
         public static int stride { get; set; }
         public static ImageCommand IC { get; set; }
         public static byte[] currentColour { get; set; }
-        
-        
+
+        public static string ptr { get; set; }
+
 
         public SimplePaintViewModel()
         {
             currentColour = new byte[4];
             currentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
-            width = 300;
-            height = 300;
+            width = 900;
+            height = 900;
             IC = new ImageCommand(this);
             stride = 4 * width;
             ImageData = new byte[height*stride];
@@ -53,9 +55,15 @@ namespace Simple_Paint.ViewModel
             Imagesource = BitmapSource.Create(Imagesource.PixelWidth,Imagesource.PixelHeight,Imagesource.DpiX,Imagesource.DpiY,Imagesource.Format,Imagesource.Palette,ImageData,Imagesource.PixelWidth*4);
         }
 
-        public static void paint_Pixel(int x, int y, int pt)
+        public static void paint_Pixel(int x, int y)
         {
-            IC.paint_Pixel(x,y,pt);
+            IC.paint_Pixel(x,y,getprt());
+        }
+
+        public static int getprt()
+        {
+            int i = Convert.ToInt32(ptr);
+            return i;
         }
 
         public static void clear()

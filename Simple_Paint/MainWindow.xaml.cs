@@ -22,14 +22,13 @@ namespace Simple_Paint
 
         private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
         {
-            int pt = point.SelectedIndex + 1;
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 ImageSource bit = image.Source;
                 BitmapSource bitmapSource = (BitmapSource) bit;
                 int x = (int) (e.GetPosition(image).X * bitmapSource.PixelWidth / image.ActualWidth);
                 int y = (int) (e.GetPosition(image).Y * bitmapSource.PixelHeight / image.ActualHeight);
-                SimplePaintViewModel.paint_Pixel(x, y, pt);
+                SimplePaintViewModel.paint_Pixel(x, y);
             }
         }
 

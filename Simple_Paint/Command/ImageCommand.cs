@@ -31,7 +31,7 @@ namespace Simple_Paint.Command
             while (loop != 0)
             {
                 int temp = (x + (y-loop) * SimplePaintViewModel.height) * 4;
-                for (int i = temp; i < temp + 4 * pt; i++)
+                for (int i = temp; i < temp + 4 * pt && i < (y-loop)*SimplePaintViewModel.height*4+SimplePaintViewModel.width*4; i++)
                 {
                     if (i < 0) continue;
                     SimplePaintViewModel.ImageData[i] = SimplePaintViewModel.currentColour[j];

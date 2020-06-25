@@ -23,6 +23,7 @@
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Button Grid.Column="0" Grid.Row="0" Background="Red" Click="Red_OnClick"/>
@@ -33,18 +34,13 @@
         <Button Grid.Column="5" Grid.Row="0" Background="Black" Click="Black_OnClick" />
         <Button Grid.Column="6" Grid.Row="0" Background="White" Click="White_OnClick" />
         <Button Grid.Column="7" Grid.Row="0" Content="CLEAR" BorderThickness="2" Click="Clear" />
-        <ComboBox Name="point" Grid.Column="8" Grid.Row="0" SelectedIndex="0"> 
+        <ComboBox Name="point" Grid.Column="8" Grid.Row="0" SelectedIndex="0" IsTextSearchEnabled="False" Text="{Binding ptr}" IsEditable="True"> 
             <ComboBoxItem Content="1"/>
             <ComboBoxItem Content="5"/>
             <ComboBoxItem Content="10"/>
             <ComboBoxItem Content="15"/>
-            <ComboBoxItem Content="20"/>
-            <ComboBoxItem Content="25"/>
-            <ComboBoxItem Content="30"/>
-            <ComboBoxItem Content="35"/>
-            
         </ComboBox>    
         
-        <Image Name="image" Stretch="Fill" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="9" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove"/>
+        <Image Name="image" Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="10" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove"/>
     </Grid>
 </Window>
