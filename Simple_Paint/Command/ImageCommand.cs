@@ -1,8 +1,12 @@
 ﻿using System;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Schema;
 using Simple_Paint.ViewModel;
+using Image = System.Drawing.Image;
 
 namespace Simple_Paint.Command
 {
@@ -21,7 +25,7 @@ namespace Simple_Paint.Command
             {
                 SimplePaintViewModel.ImageData[i] = Convert.ToByte(255);
             }
-            _simplePaintViewModel.UpdateImage();
+            //_simplePaintViewModel.createNewImage();
         }
 
         public void paint_Pixel(int x,int y, int pt)
@@ -30,17 +34,31 @@ namespace Simple_Paint.Command
             int loop = pt;
             while (loop != 0)
             {
-                int temp = (x + (y-loop) * SimplePaintViewModel.height) * 4;
-                for (int i = temp; i < temp + 4 * pt && i < (y-loop)*SimplePaintViewModel.height*4+SimplePaintViewModel.width*4; i++)
+                int temp = ((y-loop) * SimplePaintViewModel.stride) + x*SimplePaintViewModel.bytesPerPixel;
+                for (int i = temp; i < temp + SimplePaintViewModel.bytesPerPixel * pt && i < ((y-loop)*SimplePaintViewModel.height+SimplePaintViewModel.width)*SimplePaintViewModel.bytesPerPixel; i++)
                 {
-                    if (i < 0) continue;
+                    if (i < 0 || i > SimplePaintViewModel.ImageData.Length) continue;
                     SimplePaintViewModel.ImageData[i] = SimplePaintViewModel.currentColour[j];
                     j++;
-                    if (j == 4) j = 0;
+                    if (j == SimplePaintViewModel.bytesPerPixel) j = 0;
                 }
-
-                _simplePaintViewModel.UpdateImage();
                 loop = loop - 1;
+            }
+            _simplePaintViewModel.UpdateImage();
+        }
+
+        public void createNewImage()
+        {
+            _simplePaintViewModel.createNewImage();
+        }
+
+        public void createImage(BitmapSource image = null)
+        {
+            if(image == null)
+                _simplePaintViewModel.UpdateImage();
+            else
+            {
+                _simplePaintViewModel.LoadImage(image);
             }
         }
     }
