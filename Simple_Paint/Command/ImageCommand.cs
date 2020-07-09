@@ -1,12 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Xml.Schema;
 using Simple_Paint.ViewModel;
-using Image = System.Drawing.Image;
+
 
 namespace Simple_Paint.Command
 {
@@ -25,7 +20,6 @@ namespace Simple_Paint.Command
             {
                 SimplePaintViewModel.ImageData[i] = Convert.ToByte(255);
             }
-            //_simplePaintViewModel.createNewImage();
         }
 
         public void paint_Pixel(int x,int y, int pt)
@@ -47,12 +41,12 @@ namespace Simple_Paint.Command
             _simplePaintViewModel.UpdateImage();
         }
 
-        public void createNewImage()
+        public void CreateNewImage()
         {
-            _simplePaintViewModel.createNewImage();
+            _simplePaintViewModel.CreateNewImage();
         }
 
-        public void createImage(BitmapSource image = null)
+        public void CreateImage(BitmapSource image = null)
         {
             if(image == null)
                 _simplePaintViewModel.UpdateImage();

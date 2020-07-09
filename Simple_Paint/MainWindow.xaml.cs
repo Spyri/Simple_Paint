@@ -98,7 +98,7 @@ namespace Simple_Paint
 
         private void Clear(object sender, RoutedEventArgs e)
         {
-            SimplePaintViewModel.createImage();  
+            SimplePaintViewModel.CreateImage();  
         }
 
         private void SaveFile_OnClick(object sender, RoutedEventArgs e)
@@ -112,8 +112,6 @@ namespace Simple_Paint
                 FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create);
                     encoder.Save(stream);
                     stream.Close();
-                  
-                  //SimplePaintViewModel.createImage(ConvertImageToWpfImage(Image.FromFile(openFileDialog.FileName)));;
             }
         }
 
@@ -124,11 +122,10 @@ namespace Simple_Paint
             openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg;|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                BitmapSource b = CreateFromPNG(openFileDialog.FileName);
-                //byte[] y = BitmapSourceToByteArray(b);
+                BitmapSource b = CreateFromPng(openFileDialog.FileName);
                 SimplePaintViewModel.ImageData = new byte[b.PixelHeight* b.PixelWidth*(b.Format.BitsPerPixel/8)];
                 b.CopyPixels(SimplePaintViewModel.ImageData,b.PixelWidth*(b.Format.BitsPerPixel/8),0);
-                SimplePaintViewModel.createImage(b);
+                SimplePaintViewModel.CreateImage(b);
             }
         }
         
@@ -144,15 +141,8 @@ namespace Simple_Paint
                 return stream.GetBuffer();
             }
         }
-        public static byte[] imageToByteArray(System.Drawing.Image image)
-        {
-            using(var ms = new MemoryStream())
-            {
-                image.Save(ms, image.RawFormat);
-                return ms.ToArray();
-            }
-        }
-        private static BitmapSource CreateFromPNG( string path )
+        
+        private static BitmapSource CreateFromPng( string path )
         {
             // Open a Stream and decode a PNG image
 			

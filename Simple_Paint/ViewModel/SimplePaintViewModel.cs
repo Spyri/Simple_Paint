@@ -14,7 +14,7 @@ using Image = System.Drawing.Image;
 
 namespace Simple_Paint.ViewModel
 {
-    public class SimplePaintViewModel : INotifyPropertyChanged
+    public sealed class SimplePaintViewModel : INotifyPropertyChanged
     {
         private BitmapSource _imagesource;
         private string _ptr;
@@ -48,10 +48,9 @@ namespace Simple_Paint.ViewModel
             currentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
             IC = new ImageCommand(this);
             NewImage();
-            //Imagesource = BitmapSource.Create(width,height,400,400, PixelFormats.Bgr24, null,ImageData,stride);
         }
 
-        public void createNewImage()
+        public void CreateNewImage()
         {
             Imagesource = BitmapSource.Create(width,height,400,400, PixelFormats.Bgr24, null,ImageData,stride);
         }
@@ -67,12 +66,12 @@ namespace Simple_Paint.ViewModel
             Imagesource = BitmapSource.Create(image.PixelWidth,image.PixelHeight,image.DpiX,image.DpiY,image.Format, image.Palette,ImageData,stride);
         }
 
-        public static void createImage(BitmapSource i = null)
+        public static void CreateImage(BitmapSource i = null)
         {
             if (i == null)
             {
                 IC.clearAll();
-                IC.createImage();
+                IC.CreateImage();
             }
             else
             {
@@ -80,7 +79,7 @@ namespace Simple_Paint.ViewModel
                 height = i.PixelHeight;
                 bytesPerPixel= i.Format.BitsPerPixel/8;
                 stride = bytesPerPixel * i.PixelWidth;
-                IC.createImage(i);
+                IC.CreateImage(i);
             }
         }
         public static void NewImage()
@@ -91,30 +90,25 @@ namespace Simple_Paint.ViewModel
             stride = width * bytesPerPixel;
             ImageData = new byte[height * stride];
             IC.clearAll();
-            IC.createNewImage();
+            IC.CreateNewImage();
         }
 
         public static void paint_Pixel(int x, int y)
         {
-            IC.paint_Pixel(x,y,getptr());
+            IC.paint_Pixel(x,y,Getptr());
         }
 
-        public static int getptr()
+        public static int Getptr()
         {
             // ptr = Dicke des Stiftes
             int i = Convert.ToInt32(ptr);
             return i;
         }
 
-        public static void clear()
-        {
-            IC.clearAll();
-        }
-        
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
