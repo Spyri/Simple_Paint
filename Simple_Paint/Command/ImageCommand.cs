@@ -26,10 +26,11 @@ namespace Simple_Paint.Command
         {
             int j = 0;
             int loop = pt;
+            y = y + 1;
             while (loop != 0)
             {
                 int temp = ((y-loop) * SimplePaintViewModel.stride) + x*SimplePaintViewModel.bytesPerPixel;
-                for (int i = temp; i < temp + SimplePaintViewModel.bytesPerPixel * pt && i < ((y-loop)*SimplePaintViewModel.height+SimplePaintViewModel.width)*SimplePaintViewModel.bytesPerPixel; i++)
+                for (int i = temp; i < temp + SimplePaintViewModel.bytesPerPixel * pt && i < (y-loop)*SimplePaintViewModel.stride+SimplePaintViewModel.width*SimplePaintViewModel.bytesPerPixel; i++)
                 {
                     if (i < 0 || i > SimplePaintViewModel.ImageData.Length) continue;
                     SimplePaintViewModel.ImageData[i] = SimplePaintViewModel.currentColour[j];

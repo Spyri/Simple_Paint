@@ -41,7 +41,7 @@
             <ComboBoxItem Content="10"/>
             <ComboBoxItem Content="15"/>
         </ComboBox>    
-        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7">
+        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New" Click="New_OnClick"/>
