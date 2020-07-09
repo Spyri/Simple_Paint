@@ -96,11 +96,12 @@ namespace Simple_Paint.ViewModel
 
         public static void paint_Pixel(int x, int y)
         {
-            IC.paint_Pixel(x,y,getprt());
+            IC.paint_Pixel(x,y,getptr());
         }
 
-        public static int getprt()
+        public static int getptr()
         {
+            // ptr = Dicke des Stiftes
             int i = Convert.ToInt32(ptr);
             return i;
         }
