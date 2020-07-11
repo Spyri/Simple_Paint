@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Simple_Paint.ViewModel"
         mc:Ignorable="d"
-        Title="Simple_Paint" Height="350" Width="525">
+        Title="Simple_Paint" Height="350" Width="525" Background="Black">
     <Window.DataContext>
         <vm:SimplePaintViewModel/>
     </Window.DataContext>
@@ -13,7 +13,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="20" />
+            <RowDefinition Height="10" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="10" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -24,8 +26,8 @@
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Button Grid.Column="0" Grid.Row="1" Background="Red" Click="Red_OnClick"/>
         <Button Grid.Column="1" Grid.Row="1" Background="Lime" Click="Green_OnClick" />
@@ -35,7 +37,7 @@
         <Button Grid.Column="5" Grid.Row="1" Background="Black" Click="Black_OnClick" />
         <Button Grid.Column="6" Grid.Row="1" Background="White" Click="White_OnClick" />
         <Button Grid.Column="7" Grid.Row="1" Content="CLEAR" BorderThickness="2" Click="Clear" />
-        <ComboBox Name="point" Grid.Column="8" Grid.Row="1" SelectedIndex="0" IsTextSearchEnabled="False" Text="{Binding ptr}" IsEditable="True"> 
+        <ComboBox Name="point" Grid.Column="8" Grid.Row="1" SelectedIndex="0" IsTextSearchEnabled="False" Text="{Binding ptr}" IsEditable="True" PreviewTextInput="Point_OnTextInput"> 
             <ComboBoxItem Content="1"/>
             <ComboBoxItem Content="5"/>
             <ComboBoxItem Content="10"/>
@@ -46,11 +48,13 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_New" Click="New_OnClick"/>
                 <MenuItem Header="_Open" Click="OpenFile_OnClick"/>
-                <MenuItem Header="_Save" Click="SaveFile_OnClick"/>
+                <MenuItem Header="_Save as PNG" Click="SaveFile_OnClick"/>
+                <MenuItem Header="_Save as JPEG" Click="SaveFileJpeg_OnClick"/>
+                <MenuItem Header="_Exit" Click="Exit_OnClick"/>
             </MenuItem>
         </Menu>
         </DockPanel>
         
-        <Image Name="image" Stretch="Fill" RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="10" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove"/>
+        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Name="image"  RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="10" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove"/>
     </Grid>
 </Window>

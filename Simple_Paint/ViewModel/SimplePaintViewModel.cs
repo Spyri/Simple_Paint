@@ -38,16 +38,15 @@ namespace Simple_Paint.ViewModel
         public static int stride { get; set; }
         public static ImageCommand IC { get; set; }
         public static byte[] currentColour { get; set; }
-
         public static string ptr { get; set; }
 
 
         public SimplePaintViewModel()
         {
-            currentColour = new byte[4];
-            currentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
+            currentColour = new byte[3];
+            currentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
             IC = new ImageCommand(this);
-            NewImage();
+            NewImage(100,100);
         }
 
         public void CreateNewImage()
@@ -82,10 +81,10 @@ namespace Simple_Paint.ViewModel
                 IC.CreateImage(i);
             }
         }
-        public static void NewImage()
+        public static void NewImage(int width, int height)
         {
-            width = 100;
-            height = 100;
+            SimplePaintViewModel.width = width;
+            SimplePaintViewModel.height = height;
             bytesPerPixel = 3;
             stride = width * bytesPerPixel;
             ImageData = new byte[height * stride];

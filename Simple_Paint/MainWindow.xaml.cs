@@ -9,11 +9,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using Simple_Paint.Command;
 using Simple_Paint.ViewModel;
 using Image = System.Drawing.Image;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace Simple_Paint
 {
@@ -45,7 +47,6 @@ namespace Simple_Paint
             SimplePaintViewModel.currentColour[0] = Convert.ToByte(0);
             SimplePaintViewModel.currentColour[1] = Convert.ToByte(0);
             SimplePaintViewModel.currentColour[2] = Convert.ToByte(255);
-            SimplePaintViewModel.currentColour[3] = Convert.ToByte(255);
         }
 
         private void Green_OnClick(object sender, RoutedEventArgs e)
@@ -53,31 +54,27 @@ namespace Simple_Paint
             SimplePaintViewModel.currentColour[0] = Convert.ToByte(0);
             SimplePaintViewModel.currentColour[1] = Convert.ToByte(255);
             SimplePaintViewModel.currentColour[2] = Convert.ToByte(0);
-            SimplePaintViewModel.currentColour[3] = Convert.ToByte(255);
         }
 
         private void Black_OnClick(object sender, RoutedEventArgs e)
         {
-            SimplePaintViewModel.currentColour[0] = Convert.ToByte(0);
-            SimplePaintViewModel.currentColour[1] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(0); 
+            SimplePaintViewModel.currentColour[1] = Convert.ToByte(0); 
             SimplePaintViewModel.currentColour[2] = Convert.ToByte(0);
-            SimplePaintViewModel.currentColour[3] = Convert.ToByte(255);
         }
 
         private void White_OnClick(object sender, RoutedEventArgs e)
-        {
-            SimplePaintViewModel.currentColour[0] = Convert.ToByte(255);
+        { 
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(255); 
             SimplePaintViewModel.currentColour[1] = Convert.ToByte(255);
             SimplePaintViewModel.currentColour[2] = Convert.ToByte(255);
-            SimplePaintViewModel.currentColour[3] = Convert.ToByte(255);
         }
 
-       private void Blue_OnClick(object sender, RoutedEventArgs e)
+        private void Blue_OnClick(object sender, RoutedEventArgs e)
         {
             SimplePaintViewModel.currentColour[0] = Convert.ToByte(255);
             SimplePaintViewModel.currentColour[1] = Convert.ToByte(0);
             SimplePaintViewModel.currentColour[2] = Convert.ToByte(0);
-            SimplePaintViewModel.currentColour[3] = Convert.ToByte(255);
         }
 
         private void DarkGreen_OnClick(object sender, RoutedEventArgs e)
@@ -85,15 +82,13 @@ namespace Simple_Paint
             SimplePaintViewModel.currentColour[0] = Convert.ToByte(0);
             SimplePaintViewModel.currentColour[1] = Convert.ToByte(100);
             SimplePaintViewModel.currentColour[2] = Convert.ToByte(0);
-            SimplePaintViewModel.currentColour[3] = Convert.ToByte(255);
         }
 
         private void Fuchsia_OnClick(object sender, RoutedEventArgs e)
         {
-            SimplePaintViewModel.currentColour[0] = Convert.ToByte(255);
-            SimplePaintViewModel.currentColour[1] = Convert.ToByte(0);
+            SimplePaintViewModel.currentColour[0] = Convert.ToByte(255); 
+            SimplePaintViewModel.currentColour[1] = Convert.ToByte(0); 
             SimplePaintViewModel.currentColour[2] = Convert.ToByte(255);
-            SimplePaintViewModel.currentColour[3] = Convert.ToByte(255);
         }
 
         private void Clear(object sender, RoutedEventArgs e)
@@ -114,20 +109,47 @@ namespace Simple_Paint
                     stream.Close();
             }
         }
+        private void SaveFileJpeg_OnClick(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create((BitmapSource)image.Source));
+                FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create);
+                encoder.Save(stream);
+                stream.Close();
+            }
+        }
 
 
         private void OpenFile_OnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg;|All files (*.*)|*.*";
+            openFileDialog.Filter = "Image files (*.png;*.jpg)|*.png;*.jpg;|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                BitmapSource b = CreateFromPng(openFileDialog.FileName);
-                SimplePaintViewModel.ImageData = new byte[b.PixelHeight* b.PixelWidth*(b.Format.BitsPerPixel/8)];
-                b.CopyPixels(SimplePaintViewModel.ImageData,b.PixelWidth*(b.Format.BitsPerPixel/8),0);
-                Console.WriteLine("Format: {0}  Width: {1}  Length: {2}", b.Format,b.PixelWidth,b.PixelHeight);
-                SimplePaintViewModel.CreateImage(b);
+                Console.WriteLine(openFileDialog.SafeFileName);
+                if (openFileDialog.SafeFileName.Contains(".png"))
+                {
+                    BitmapSource b = CreateFromPng(openFileDialog.FileName);
+                    openImage(b);
+                }
+                else
+                {
+                    BitmapSource jpeg = CreateFromJpeg(openFileDialog.FileName);
+                    openImage(jpeg);
+                }
             }
+        }
+
+        public static void openImage(BitmapSource b)
+        {
+            SimplePaintViewModel.ImageData = new byte[b.PixelHeight* b.PixelWidth*(b.Format.BitsPerPixel/8)];
+            b.CopyPixels(SimplePaintViewModel.ImageData,b.PixelWidth*(b.Format.BitsPerPixel/8),0); 
+            Console.WriteLine("Format: {0}  Width: {1}  Length: {2} BytesPerPixel: {3}", b.Format,b.PixelWidth,b.PixelHeight,b.Format.BitsPerPixel/8);
+            SimplePaintViewModel.CreateImage(b);
         }
         
         public static byte[] BitmapSourceToByteArray(BitmapSource bitmap)
@@ -145,20 +167,56 @@ namespace Simple_Paint
         
         private static BitmapSource CreateFromPng( string path )
         {
-            // Open a Stream and decode a PNG image
-			
             Stream imageStreamSource = new FileStream( path, FileMode.Open, FileAccess.Read, FileShare.Read );
-
             PngBitmapDecoder decoder = new PngBitmapDecoder( imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default );
+            BitmapSource bmpSource = decoder.Frames[ 0 ];
+            
+            if (bmpSource.Format != PixelFormats.Bgr24)
+            {
+                FormatConvertedBitmap b = new FormatConvertedBitmap();
+                b.BeginInit();
+                b.Source = bmpSource;
+                b.DestinationFormat = PixelFormats.Bgr24;
+                b.EndInit();
+                return b;
+            }
+            return bmpSource;
+        }
+        private static BitmapSource CreateFromJpeg( string path )
+        {
+                     
+            Stream imageStreamSource = new FileStream( path, FileMode.Open, FileAccess.Read, FileShare.Read );
+            JpegBitmapDecoder decoder = new JpegBitmapDecoder(imageStreamSource,BitmapCreateOptions.PreservePixelFormat,BitmapCacheOption.Default);
 
             BitmapSource bmpSource = decoder.Frames[ 0 ];
 
+            FormatConvertedBitmap b = new FormatConvertedBitmap();
+            if (bmpSource.Format != PixelFormats.Indexed8)
+            {
+                b.BeginInit();
+                b.Source = bmpSource;
+                b.DestinationFormat = PixelFormats.Bgr24;
+                b.EndInit();
+                return b;
+            }
             return bmpSource;
         }
 
         private void New_OnClick(object sender, RoutedEventArgs e)
         {
-            SimplePaintViewModel.NewImage();
+            NewPageInput n = new NewPageInput();
+            n.Show();
+        }
+
+        private void Exit_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Point_OnTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
