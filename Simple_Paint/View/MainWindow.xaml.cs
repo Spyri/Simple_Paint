@@ -24,8 +24,10 @@ namespace Simple_Paint.View
 
         private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
         {
+            this.Cursor = Cursors.Arrow;
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                this.Cursor = Cursors.Pen;
                 ImageSource bit = image.Source;
                 BitmapSource bitmapSource = (BitmapSource) bit;
                 int x = (int) (e.GetPosition(image).X * bitmapSource.PixelWidth / image.ActualWidth);
