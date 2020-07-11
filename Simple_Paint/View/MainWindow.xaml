@@ -1,4 +1,4 @@
-﻿<Window x:Class="Simple_Paint.MainWindow"
+﻿<Window x:Class="Simple_Paint.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -37,22 +37,21 @@
         <Button Grid.Column="5" Grid.Row="1" Background="Black" Click="Black_OnClick" />
         <Button Grid.Column="6" Grid.Row="1" Background="White" Click="White_OnClick" />
         <Button Grid.Column="7" Grid.Row="1" Content="CLEAR" BorderThickness="2" Click="Clear" />
-        <ComboBox Name="point" Grid.Column="8" Grid.Row="1" SelectedIndex="0" IsTextSearchEnabled="False" Text="{Binding ptr}" IsEditable="True" PreviewTextInput="Point_OnTextInput"> 
+        <ComboBox Name="point" Grid.Column="8" Grid.ColumnSpan="2" Grid.Row="1" SelectedIndex="0" IsTextSearchEnabled="False" Text="{Binding Ptr}" IsEditable="True" PreviewTextInput="CheckIfInputIsNumber"> 
             <ComboBoxItem Content="1"/>
             <ComboBoxItem Content="5"/>
             <ComboBoxItem Content="10"/>
             <ComboBoxItem Content="15"/>
         </ComboBox>    
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10">
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_New" Click="New_OnClick"/>
-                <MenuItem Header="_Open" Click="OpenFile_OnClick"/>
-                <MenuItem Header="_Save as PNG" Click="SaveFile_OnClick"/>
-                <MenuItem Header="_Save as JPEG" Click="SaveFileJpeg_OnClick"/>
-                <MenuItem Header="_Exit" Click="Exit_OnClick"/>
-            </MenuItem>
-        </Menu>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" Click="New_OnClick"/>
+                    <MenuItem Header="_Open" Click="OpenFile_OnClick"/>
+                    <MenuItem Header="_Save Image" Click="Save_OnClick"/>
+                    <MenuItem Header="_Exit" Click="Exit_OnClick"/>
+                </MenuItem>
+            </Menu>
         </DockPanel>
         
         <Image HorizontalAlignment="Center" VerticalAlignment="Center" Name="image"  RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="10" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove"/>

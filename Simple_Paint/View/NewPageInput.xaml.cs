@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using Simple_Paint.ViewModel;
 
-namespace Simple_Paint
+namespace Simple_Paint.View
 {
     public partial class NewPageInput : Window
     {

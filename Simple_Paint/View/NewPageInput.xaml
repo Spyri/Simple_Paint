@@ -1,4 +1,4 @@
-﻿<Window x:Class="Simple_Paint.NewPageInput"
+﻿<Window x:Class="Simple_Paint.View.NewPageInput"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

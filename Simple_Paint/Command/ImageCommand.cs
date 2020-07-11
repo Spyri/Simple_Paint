@@ -29,13 +29,13 @@ namespace Simple_Paint.Command
             y = y + 1;
             while (loop != 0)
             {
-                int temp = ((y-loop) * SimplePaintViewModel.stride) + x*SimplePaintViewModel.bytesPerPixel;
-                for (int i = temp; i < temp + SimplePaintViewModel.bytesPerPixel * pt && i < (y-loop)*SimplePaintViewModel.stride+SimplePaintViewModel.width*SimplePaintViewModel.bytesPerPixel; i++)
+                int temp = ((y-loop) * SimplePaintViewModel.Stride) + x*SimplePaintViewModel.BytesPerPixel;
+                for (int i = temp; i < temp + SimplePaintViewModel.BytesPerPixel * pt && i < (y-loop)*SimplePaintViewModel.Stride+SimplePaintViewModel.Width*SimplePaintViewModel.BytesPerPixel; i++)
                 {
                     if (i < 0 || i > SimplePaintViewModel.ImageData.Length) continue;
-                    SimplePaintViewModel.ImageData[i] = SimplePaintViewModel.currentColour[j];
+                    SimplePaintViewModel.ImageData[i] = SimplePaintViewModel.CurrentColour[j];
                     j++;
-                    if (j == SimplePaintViewModel.bytesPerPixel) j = 0;
+                    if (j == SimplePaintViewModel.BytesPerPixel) j = 0;
                 }
                 loop = loop - 1;
             }
