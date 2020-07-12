@@ -22,6 +22,11 @@ namespace Simple_Paint.Command
             }
         }
 
+        public void SaveImage()
+        {
+            _simplePaintViewModel.SaveTempImage();
+        }
+
         public void paint_Pixel(int x,int y, int pt)
         {
             int j = 0;
@@ -40,6 +45,12 @@ namespace Simple_Paint.Command
                 loop = loop - 1;
             }
             _simplePaintViewModel.UpdateImage();
+        }
+
+        public void ReturnMove()
+        {
+            _simplePaintViewModel.ShowOlderImage();
+            
         }
 
         public void CreateNewImage()

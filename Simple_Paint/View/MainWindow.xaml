@@ -25,9 +25,10 @@
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10"/>
+            
         </Grid.ColumnDefinitions>
         <Button Grid.Column="0" Grid.Row="1" Background="Red" Click="Red_OnClick"/>
         <Button Grid.Column="1" Grid.Row="1" Background="Lime" Click="Green_OnClick" />
@@ -37,12 +38,13 @@
         <Button Grid.Column="5" Grid.Row="1" Background="Black" Click="Black_OnClick" />
         <Button Grid.Column="6" Grid.Row="1" Background="White" Click="White_OnClick" />
         <Button Grid.Column="7" Grid.Row="1" Content="CLEAR" BorderThickness="2" Click="Clear" />
-        <ComboBox Name="point" Grid.Column="8" Grid.ColumnSpan="2" Grid.Row="1" SelectedIndex="0" IsTextSearchEnabled="False" Text="{Binding Ptr}" IsEditable="True" PreviewTextInput="CheckIfInputIsNumber"> 
+        <ComboBox Name="point" Grid.Column="8"  Grid.Row="1" SelectedIndex="0" IsTextSearchEnabled="False" Text="{Binding Ptr}" IsEditable="True" PreviewTextInput="CheckIfInputIsNumber"> 
             <ComboBoxItem Content="1"/>
             <ComboBoxItem Content="5"/>
             <ComboBoxItem Content="10"/>
             <ComboBoxItem Content="15"/>
-        </ComboBox>    
+        </ComboBox>
+        <Button Content="Back" Grid.Row="1" Grid.Column="9" Click="ReturnMove_OnClick" />
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
@@ -51,9 +53,18 @@
                     <MenuItem Header="_Save Image" Click="Save_OnClick"/>
                     <MenuItem Header="_Exit" Click="Exit_OnClick"/>
                 </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="_Redo" InputGestureText="Strg+Z"/>
+                </MenuItem>
             </Menu>
         </DockPanel>
-        
-        <Image HorizontalAlignment="Center" VerticalAlignment="Center" Name="image"  RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="10" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" ColumnSpan="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Name="image"  RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="0" Grid.Column="1"  Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove" LostMouseCapture="SaveTemp"/>
+        </Grid>
     </Grid>
 </Window>

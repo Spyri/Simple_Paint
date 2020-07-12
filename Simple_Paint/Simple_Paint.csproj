@@ -51,6 +51,7 @@
         <Compile Include="Command\ImageCommand.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="ViewModel\SimplePaintViewModel.cs" />
+        <Compile Include="ViewModel\TempImage.cs" />
         <Compile Include="View\MainWindow.xaml.cs">
           <DependentUpon>MainWindow.xaml</DependentUpon>
           <SubType>Code</SubType>
