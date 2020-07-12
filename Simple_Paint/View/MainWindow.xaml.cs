@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -24,11 +24,9 @@ namespace Simple_Paint.View
 
         private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
         {
-            this.Cursor = Cursors.Arrow;
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed) 
             {
-                this.Cursor = Cursors.Pen;
-                ImageSource bit = image.Source;
+                ImageSource bit = image.Source; 
                 BitmapSource bitmapSource = (BitmapSource) bit;
                 int x = (int) (e.GetPosition(image).X * bitmapSource.PixelWidth / image.ActualWidth);
                 int y = (int) (e.GetPosition(image).Y * bitmapSource.PixelHeight / image.ActualHeight);
@@ -176,6 +174,16 @@ namespace Simple_Paint.View
             SaveInput save = new SaveInput();
             SimplePaintViewModel.ToSave = image;
             save.Show();
+        }
+
+        private void ReturnMove_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimplePaintViewModel.RedoMove();
+        }
+
+        private void SaveTemp(object sender, MouseEventArgs mouseEventArgs)
+        {
+             SimplePaintViewModel.startSavingTemp();
         }
     }
 }
