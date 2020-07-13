@@ -50,7 +50,6 @@ namespace Simple_Paint.Command
         public void ReturnMove()
         {
             _simplePaintViewModel.ShowOlderImage();
-            
         }
 
         public void CreateNewImage()

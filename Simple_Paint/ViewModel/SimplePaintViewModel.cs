@@ -37,6 +37,7 @@ namespace Simple_Paint.ViewModel
         public static ImageCommand Ic { get; set; }
         public static byte[] CurrentColour { get; set; }
         public static string Ptr { get; set; }
+        public ShortcutCommand Sc { get; set; }
 
         public List<TempImage> ImageSave { get; set; }
 
@@ -45,6 +46,7 @@ namespace Simple_Paint.ViewModel
         {
             ImageSave = new List<TempImage>();
             new TempImage();
+            Sc = new ShortcutCommand(this);
             CurrentColour = new byte[3];
             CurrentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
             Ic = new ImageCommand(this);
@@ -53,10 +55,12 @@ namespace Simple_Paint.ViewModel
 
         public void CreateNewImage()
         {
+            ImageSave = new List<TempImage>();
             for (int j = ImageSave.Count-1; j >= 0; j--)
             {
-                ImageSave.Remove(ImageSave[j]);
+                ImageSave.RemoveAt(j);
             }
+            TempImage.NewesPicIndex = 0;
             Imagesource = BitmapSource.Create(Width,Height,400,400, PixelFormats.Bgr24, null,ImageData,Stride);
             ImageSave.Add(new TempImage(Imagesource,Stride));
         }
@@ -65,16 +69,14 @@ namespace Simple_Paint.ViewModel
         {
             Imagesource = BitmapSource.Create(Imagesource.PixelWidth, Imagesource.PixelHeight, Imagesource.DpiX,
                     Imagesource.DpiY, Imagesource.Format, Imagesource.Palette, ImageData, Imagesource.PixelWidth*(Imagesource.Format.BitsPerPixel/8));
-            //ImageSave.Add(new TempImage(Imagesource,Imagesource.PixelWidth*(Imagesource.Format.BitsPerPixel/8)));
         }
         public void SaveTempImage()
         {
-            Imagesource = BitmapSource.Create(Imagesource.PixelWidth, Imagesource.PixelHeight, Imagesource.DpiX,
-                Imagesource.DpiY, Imagesource.Format, Imagesource.Palette, ImageData, Imagesource.PixelWidth*(Imagesource.Format.BitsPerPixel/8));
+            UpdateImage();
             ImageSave.Add(new TempImage(Imagesource,Imagesource.PixelWidth*(Imagesource.Format.BitsPerPixel/8)));
         }
 
-        public static void startSavingTemp()
+        public static void StartSavingTemp()
         {
             Ic.SaveImage();
         }
@@ -85,6 +87,7 @@ namespace Simple_Paint.ViewModel
             {
                 ImageSave.Remove(ImageSave[j]);
             }
+            TempImage.NewesPicIndex = 0;
             Imagesource = BitmapSource.Create(image.PixelWidth,image.PixelHeight,image.DpiX,image.DpiY,image.Format, image.Palette,ImageData,Stride);
             ImageSave.Add(new TempImage(Imagesource,Imagesource.PixelWidth*Imagesource.Format.BitsPerPixel/8));
         }
@@ -123,21 +126,24 @@ namespace Simple_Paint.ViewModel
 
         public static void RedoMove()
         {
-            if(TempImage.newesPicIndex>=1)
+            if(TempImage.NewesPicIndex>0)
             {
-                TempImage.newesPicIndex--;
+                //TempImage.newesPicIndex--;
+                Console.WriteLine(TempImage.NewesPicIndex);
                 Ic.ReturnMove();
             }
         }
 
         public void ShowOlderImage()
         {
-            TempImage e = ImageSave[TempImage.newesPicIndex];
-            ImageData = e.tempPixelData;
-            Imagesource = BitmapSource.Create(e.tempbmp.PixelWidth,e.tempbmp.PixelHeight,e.tempbmp.DpiX,e.tempbmp.DpiY,e.tempbmp.Format,e.tempbmp.Palette,e.tempPixelData,e.tempbmp.PixelWidth*e.tempbmp.Format.BitsPerPixel/8);
-            for (int i = ImageSave.Count-1; i > TempImage.newesPicIndex; i--)
+            TempImage.NewesPicIndex--;
+            TempImage e = ImageSave[TempImage.NewesPicIndex];
+            ImageData = e.TempPixelData;
+            Imagesource = BitmapSource.Create(e.Tempbmp.PixelWidth,e.Tempbmp.PixelHeight,e.Tempbmp.DpiX,e.Tempbmp.DpiY,e.Tempbmp.Format,e.Tempbmp.Palette,e.TempPixelData,e.Tempbmp.PixelWidth*e.Tempbmp.Format.BitsPerPixel/8);
+            ImageSave.RemoveAt(TempImage.NewesPicIndex);
+            if (TempImage.NewesPicIndex == 0)
             {
-                ImageSave.Remove(ImageSave[i]);
+                ImageSave.Add(new TempImage(Imagesource,Stride));
             }
         }
 

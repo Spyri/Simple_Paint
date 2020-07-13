@@ -20,6 +20,9 @@ namespace Simple_Paint.View
         public MainWindow()
         {
             InitializeComponent();
+            RoutedCommand cmdredo = new RoutedCommand();
+            cmdredo.InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Control));
+            CommandBindings.Add(new CommandBinding(cmdredo, ReturnMove_OnClick));
         }
 
         private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
@@ -181,9 +184,9 @@ namespace Simple_Paint.View
             SimplePaintViewModel.RedoMove();
         }
 
-        private void SaveTemp(object sender, MouseEventArgs mouseEventArgs)
+        private void SaveTemp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
-             SimplePaintViewModel.startSavingTemp();
+            SimplePaintViewModel.StartSavingTemp();
         }
     }
 }

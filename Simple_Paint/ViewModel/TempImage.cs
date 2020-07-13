@@ -4,20 +4,20 @@ namespace Simple_Paint.ViewModel
 {
     public class TempImage
     {
-        public BitmapSource tempbmp { get; set; }
-        public byte[] tempPixelData { get; set; }
-        public static int newesPicIndex { get; set; }
+        public BitmapSource Tempbmp { get; set; }
+        public byte[] TempPixelData { get; set; }
+        public static int NewesPicIndex { get; set; }
 
         public TempImage()
         {
-            newesPicIndex = 0;
+            NewesPicIndex = 0;
         }
         public TempImage(BitmapSource b,int stride)
         {
-            tempPixelData = new byte[b.PixelHeight*stride];
-            tempbmp = b;
-            b.CopyPixels(tempPixelData,b.PixelWidth*b.Format.BitsPerPixel/8,0);
-            newesPicIndex++;
+            TempPixelData = new byte[b.PixelHeight*stride];
+            Tempbmp = b;
+            b.CopyPixels(TempPixelData,b.PixelWidth*b.Format.BitsPerPixel/8,0);
+            NewesPicIndex++;
         }
     }
 }

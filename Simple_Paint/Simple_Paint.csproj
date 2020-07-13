@@ -49,6 +49,7 @@
             <SubType>Designer</SubType>
         </ApplicationDefinition>
         <Compile Include="Command\ImageCommand.cs" />
+        <Compile Include="Command\ShortcutCommand.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="ViewModel\SimplePaintViewModel.cs" />
         <Compile Include="ViewModel\TempImage.cs" />
