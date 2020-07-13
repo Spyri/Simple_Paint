@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:vm="clr-namespace:Simple_Paint.ViewModel"
         mc:Ignorable="d"
-        Title="NewPageInput" Height="300" Width="400">
+        Title="NewPageInput" Height="300" Width="400"  Icon="/ProgramIcon/Simple_PaintIcon.ico">
    
     <Grid>
         <Grid.ColumnDefinitions>

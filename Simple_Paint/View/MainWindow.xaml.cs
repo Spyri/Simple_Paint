@@ -96,7 +96,6 @@ using Simple_Paint.ViewModel;
             openFileDialog.Filter = "Image files (*.png;*.jpg)|*.png;*.jpg;|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                Console.WriteLine(openFileDialog.SafeFileName);
                 if (openFileDialog.SafeFileName.Contains(".png"))
                 {
                     BitmapSource b = CreateFromPng(openFileDialog.FileName);
@@ -185,6 +184,11 @@ using Simple_Paint.ViewModel;
         private void SaveTemp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
             SimplePaintViewModel.StartSavingTemp();
+        }
+
+        private void ChangeStretched_OnClick(object sender, RoutedEventArgs e)
+        {
+            SimplePaintViewModel.ChangeStretched();
         }
     }
 }

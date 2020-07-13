@@ -12,7 +12,8 @@ namespace Simple_Paint.ViewModel
     public sealed class SimplePaintViewModel : INotifyPropertyChanged
     {
         private BitmapSource _imagesource;
-        
+        private Stretch _imageStreched;
+
         public BitmapSource Imagesource
         {
             get => _imagesource;
@@ -20,6 +21,17 @@ namespace Simple_Paint.ViewModel
             {
                 if (Equals(value, _imagesource)) return;
                 _imagesource = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Stretch ImageStreched
+        {
+            get => _imageStreched;
+            set
+            {
+                if (value == _imageStreched) return;
+                _imageStreched = value;
                 OnPropertyChanged();
             }
         }
@@ -36,7 +48,6 @@ namespace Simple_Paint.ViewModel
         public static string Ptr { get; set; }
 
         public List<TempImage> ImageSave { get; set; }
-        public int Count { get; set; }
 
 
         public SimplePaintViewModel()
@@ -47,50 +58,16 @@ namespace Simple_Paint.ViewModel
             CurrentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
             Ic = new ImageCommand(this);
             NewImage(100,100);
-            Count = 0;
+            ImageStreched = Stretch.Uniform;
         }
-
-        public void CreateNewImage()
-        {
-            ImageSave = new List<TempImage>();
-            for (int j = ImageSave.Count-1; j >= 0; j--)
-            {
-                ImageSave.RemoveAt(j);
-            }
-            TempImage.NewesPicIndex = 0;
-            Imagesource = BitmapSource.Create(Width,Height,400,400, PixelFormats.Bgr24, null,ImageData,Stride);
-            ImageSave.Add(new TempImage(Imagesource,Stride));
-        }
-        
-        public void UpdateImage()
-        {
-            Imagesource = BitmapSource.Create(Imagesource.PixelWidth, Imagesource.PixelHeight, Imagesource.DpiX,
-                    Imagesource.DpiY, Imagesource.Format, Imagesource.Palette, ImageData, Imagesource.PixelWidth*(Imagesource.Format.BitsPerPixel/8));
-        }
-
-        public void SaveTempImage()
-        {
-            UpdateImage();
-            ImageSave.Add(new TempImage(Imagesource, Imagesource.PixelWidth * (Imagesource.Format.BitsPerPixel / 8)));
-            
-        }
-
         public static void StartSavingTemp()
         {
             Ic.SaveImage();
         }
-        
-        public void LoadImage(BitmapSource image)
+        public static void ChangeStretched()
         {
-            for (int j = ImageSave.Count-1; j >= 0; j--)
-            {
-                ImageSave.Remove(ImageSave[j]);
-            }
-            TempImage.NewesPicIndex = 0;
-            Imagesource = BitmapSource.Create(image.PixelWidth,image.PixelHeight,image.DpiX,image.DpiY,image.Format, image.Palette,ImageData,Stride);
-            ImageSave.Add(new TempImage(Imagesource,Imagesource.PixelWidth*Imagesource.Format.BitsPerPixel/8));
+            Ic.ChangeStretched();
         }
-
         public static void CreateImage(BitmapSource i = null)
         {
             if (i == null)
@@ -117,12 +94,10 @@ namespace Simple_Paint.ViewModel
             Ic.clearAll();
             Ic.CreateNewImage();
         }
-
         public static void paint_Pixel(int x, int y)
         {
             Ic.paint_Pixel(x,y,Getptr());
         }
-
         public static void RedoMove()
         {
             if(TempImage.NewesPicIndex>0)
@@ -130,20 +105,6 @@ namespace Simple_Paint.ViewModel
                 Ic.ReturnMove();
             }
         }
-
-        public void ShowOlderImage()
-        {
-            TempImage.NewesPicIndex--;
-            TempImage e = ImageSave[TempImage.NewesPicIndex];
-            ImageData = e.TempPixelData;
-            Imagesource = BitmapSource.Create(e.Tempbmp.PixelWidth,e.Tempbmp.PixelHeight,e.Tempbmp.DpiX,e.Tempbmp.DpiY,e.Tempbmp.Format,e.Tempbmp.Palette,e.TempPixelData,e.Tempbmp.PixelWidth*e.Tempbmp.Format.BitsPerPixel/8);
-            ImageSave.RemoveAt(TempImage.NewesPicIndex);
-            if (TempImage.NewesPicIndex == 0)
-            {
-                ImageSave.Add(new TempImage(Imagesource,Stride));
-            }
-        }
-
         public static int Getptr()
         {
             // ptr = Dicke des Stiftes

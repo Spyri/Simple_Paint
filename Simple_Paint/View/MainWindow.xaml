@@ -55,6 +55,7 @@
                 </MenuItem>
                 <MenuItem Header="Edit">
                     <MenuItem Header="_Redo" InputGestureText="Strg+Z" Click="ReturnMove_OnClick"/>
+                    <MenuItem Header="_Stretched Image" IsCheckable="True" Click="ChangeStretched_OnClick"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
@@ -64,7 +65,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Name="image"  RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="0" Grid.Column="1"  Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove" MouseLeftButtonUp="SaveTemp"/>
+            <Image HorizontalAlignment="Center" Stretch="{Binding ImageStreched}" VerticalAlignment="Center" Name="image"  RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove" MouseLeftButtonUp="SaveTemp"/>
         </Grid>
     </Grid>
 </Window>
