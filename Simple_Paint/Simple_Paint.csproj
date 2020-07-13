@@ -49,7 +49,6 @@
             <SubType>Designer</SubType>
         </ApplicationDefinition>
         <Compile Include="Command\ImageCommand.cs" />
-        <Compile Include="Command\ShortcutCommand.cs" />
         <Compile Include="Properties\Annotations.cs" />
         <Compile Include="ViewModel\SimplePaintViewModel.cs" />
         <Compile Include="ViewModel\TempImage.cs" />
@@ -90,6 +89,9 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="ProgramIcon\Simple_PaintIcon.ico" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

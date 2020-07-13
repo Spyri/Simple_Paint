@@ -7,10 +7,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using Simple_Paint.ViewModel;
-using Image = System.Drawing.Image;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
-namespace Simple_Paint.View
+ namespace Simple_Paint.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -1,0 +1,9 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	
+	
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/MappedPaths/=SIMPLE_005FPAINT_005CPROGRAMICON_005CSIMPLE_005FPAINTICON_002EICO/@EntryIndexedValue"></s:String>
+	
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=PROGRAMICON_005CSIMPLE_005FPAINTICON_002EICO/@EntryIndexedValue">ProgramIcon\Simple_PaintIcon.ico</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=SIMPLE_005FPAINT_005CPROGRAMICON_005CSIMPLE_005FPAINTICON_002EICO/@EntryIndexedValue">Simple_Paint\ProgramIcon\Simple_PaintIcon.ico</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=VIEW_005CPROGRAMICON/@EntryIndexedValue">View\ProgramIcon</s:String>
+	<s:String x:Key="/Default/CodeInspection/WebPathMapping/PathsInCorrectCasing/=VIEW_005CPROGRAMICON_005CSIMPLE_005FPAINTICON_002EICO/@EntryIndexedValue">View\ProgramIcon\Simple_PaintIcon.ico</s:String></wpf:ResourceDictionary>

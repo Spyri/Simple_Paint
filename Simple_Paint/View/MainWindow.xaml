@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Simple_Paint.ViewModel"
         mc:Ignorable="d"
-        Title="Simple_Paint" Height="350" Width="525" Background="Black">
+        Title="Simple_Paint" Height="350" Width="525" Background="Black" Icon="/ProgramIcon/Simple_PaintIcon.ico">
     <Window.DataContext>
         <vm:SimplePaintViewModel/>
     </Window.DataContext>
@@ -25,7 +25,7 @@
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="*"/>
             

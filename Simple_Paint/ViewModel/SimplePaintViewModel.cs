@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Simple_Paint.Annotations;
 using Simple_Paint.Command;
-using Image = System.Drawing.Image;
 
 namespace Simple_Paint.ViewModel
 {
@@ -37,20 +34,20 @@ namespace Simple_Paint.ViewModel
         public static ImageCommand Ic { get; set; }
         public static byte[] CurrentColour { get; set; }
         public static string Ptr { get; set; }
-        public ShortcutCommand Sc { get; set; }
 
         public List<TempImage> ImageSave { get; set; }
+        public int Count { get; set; }
 
 
         public SimplePaintViewModel()
         {
             ImageSave = new List<TempImage>();
             new TempImage();
-            Sc = new ShortcutCommand(this);
             CurrentColour = new byte[3];
             CurrentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
             Ic = new ImageCommand(this);
             NewImage(100,100);
+            Count = 0;
         }
 
         public void CreateNewImage()
@@ -70,10 +67,12 @@ namespace Simple_Paint.ViewModel
             Imagesource = BitmapSource.Create(Imagesource.PixelWidth, Imagesource.PixelHeight, Imagesource.DpiX,
                     Imagesource.DpiY, Imagesource.Format, Imagesource.Palette, ImageData, Imagesource.PixelWidth*(Imagesource.Format.BitsPerPixel/8));
         }
+
         public void SaveTempImage()
         {
             UpdateImage();
-            ImageSave.Add(new TempImage(Imagesource,Imagesource.PixelWidth*(Imagesource.Format.BitsPerPixel/8)));
+            ImageSave.Add(new TempImage(Imagesource, Imagesource.PixelWidth * (Imagesource.Format.BitsPerPixel / 8)));
+            
         }
 
         public static void StartSavingTemp()
@@ -128,8 +127,6 @@ namespace Simple_Paint.ViewModel
         {
             if(TempImage.NewesPicIndex>0)
             {
-                //TempImage.newesPicIndex--;
-                Console.WriteLine(TempImage.NewesPicIndex);
                 Ic.ReturnMove();
             }
         }
