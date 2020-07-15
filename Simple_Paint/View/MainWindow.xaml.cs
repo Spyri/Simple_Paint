@@ -8,7 +8,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using Simple_Paint.ViewModel;
- using Color = System.Drawing.Color;
 
  namespace Simple_Paint.View
 {
