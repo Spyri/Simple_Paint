@@ -13,39 +13,47 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="20" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="10" />
             <RowDefinition Height="*" />
             <RowDefinition Height="10" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="200" />
             <ColumnDefinition Width="60"/>
             <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="*"/>
             
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="0" Grid.Row="1" Background="Red" Click="Red_OnClick"/>
-        <Button Grid.Column="1" Grid.Row="1" Background="Lime" Click="Green_OnClick" />
-        <Button Grid.Column="2" Grid.Row="1" Background="Blue" Click="Blue_OnClick" />
-        <Button Grid.Column="3" Grid.Row="1" Background="DarkGreen" Click="DarkGreen_OnClick" />
-        <Button Grid.Column="4" Grid.Row="1" Background="Fuchsia" Click="Fuchsia_OnClick" />
-        <Button Grid.Column="5" Grid.Row="1" Background="Black" Click="Black_OnClick" />
-        <Button Grid.Column="6" Grid.Row="1" Background="White" Click="White_OnClick" />
-        <Button Grid.Column="7" Grid.Row="1" Content="CLEAR" BorderThickness="2" Click="Clear" />
-        <ComboBox Name="point" Grid.Column="8"  Grid.Row="1" SelectedIndex="0" IsTextSearchEnabled="False" Text="{Binding Ptr}" IsEditable="True" PreviewTextInput="CheckIfInputIsNumber"> 
+        <Grid Name="ColorPanel" Grid.Row="1" Grid.Column="0" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                 
+            </Grid>
+        
+        <Button Grid.Row="1" Grid.Column="1" Content="CLEAR" BorderThickness="2" Click="Clear" Grid.RowSpan="2"/>
+        <ComboBox VerticalContentAlignment="Center" Name="point" Grid.Column="2" Grid.RowSpan="2" Grid.Row="1" SelectedIndex="0" IsTextSearchEnabled="False" Text="{Binding Ptr}" IsEditable="True" PreviewTextInput="CheckIfInputIsNumber"> 
             <ComboBoxItem Content="1"/>
             <ComboBoxItem Content="5"/>
             <ComboBoxItem Content="10"/>
             <ComboBoxItem Content="15"/>
         </ComboBox>
-        <Button Content="Back" Grid.Row="1" Grid.Column="9" Click="ReturnMove_OnClick" />
-        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="10">
+        <Button Content="Undo" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Click="ReturnMove_OnClick" />
+        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem Header="_New" Click="New_OnClick"/>
@@ -54,12 +62,12 @@
                     <MenuItem Header="_Exit" Click="Exit_OnClick"/>
                 </MenuItem>
                 <MenuItem Header="Edit">
-                    <MenuItem Header="_Redo" InputGestureText="Strg+Z" Click="ReturnMove_OnClick"/>
+                    <MenuItem Header="_Undo" InputGestureText="Strg+Z" Click="ReturnMove_OnClick"/>
                     <MenuItem Header="_Stretched Image" IsCheckable="True" Click="ChangeStretched_OnClick"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" ColumnSpan="10">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" ColumnSpan="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>

@@ -1,12 +1,14 @@
 ﻿﻿using System;
 using System.IO;
-using System.Text.RegularExpressions;
+ using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Input;
+ using System.Windows.Controls;
+ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using Simple_Paint.ViewModel;
+ using Color = System.Drawing.Color;
 
  namespace Simple_Paint.View
 {
@@ -17,7 +19,31 @@ using Simple_Paint.ViewModel;
     {
         public MainWindow()
         {
+            
             InitializeComponent();
+            for (int i = 0; i < 20; i++)
+            {
+                Button newBtn = new Button
+                {
+                    Name = "b" +i.ToString(),
+                    Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(SimplePaintViewModel.Colors[i].Color.R,SimplePaintViewModel.Colors[i].Color.G,SimplePaintViewModel.Colors[i].Color.B)),
+                };
+                if (i > 9)
+                {
+                    Grid.SetRow(newBtn, 1);
+                    Grid.SetColumn(newBtn, i - 10);
+                }
+                else
+                {
+                    Grid.SetRow(newBtn,0);
+                    Grid.SetColumn(newBtn,i);
+                }
+
+                newBtn.Click += Red_OnClick;
+                ColorPanel.Children.Add(newBtn);
+                
+
+            }
             RoutedCommand cmdredo = new RoutedCommand();
             cmdredo.InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Control));
             CommandBindings.Add(new CommandBinding(cmdredo, ReturnMove_OnClick));
@@ -25,8 +51,10 @@ using Simple_Paint.ViewModel;
 
         private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed) 
+            Cursor = Cursors.Arrow;
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
+                Cursor = Cursors.Pen;
                 ImageSource bit = image.Source; 
                 BitmapSource bitmapSource = (BitmapSource) bit;
                 int x = (int) (e.GetPosition(image).X * bitmapSource.PixelWidth / image.ActualWidth);
@@ -38,51 +66,13 @@ using Simple_Paint.ViewModel;
 
         private void Red_OnClick(object sender, RoutedEventArgs e)
         {
-            SimplePaintViewModel.CurrentColour[0] = Convert.ToByte(0);
-            SimplePaintViewModel.CurrentColour[1] = Convert.ToByte(0);
-            SimplePaintViewModel.CurrentColour[2] = Convert.ToByte(255);
-        }
-
-        private void Green_OnClick(object sender, RoutedEventArgs e)
-        {
-            SimplePaintViewModel.CurrentColour[0] = Convert.ToByte(0);
-            SimplePaintViewModel.CurrentColour[1] = Convert.ToByte(255);
-            SimplePaintViewModel.CurrentColour[2] = Convert.ToByte(0);
-        }
-
-        private void Black_OnClick(object sender, RoutedEventArgs e)
-        {
-            SimplePaintViewModel.CurrentColour[0] = Convert.ToByte(0); 
-            SimplePaintViewModel.CurrentColour[1] = Convert.ToByte(0); 
-            SimplePaintViewModel.CurrentColour[2] = Convert.ToByte(0);
-        }
-
-        private void White_OnClick(object sender, RoutedEventArgs e)
-        { 
-            SimplePaintViewModel.CurrentColour[0] = Convert.ToByte(255); 
-            SimplePaintViewModel.CurrentColour[1] = Convert.ToByte(255);
-            SimplePaintViewModel.CurrentColour[2] = Convert.ToByte(255);
-        }
-
-        private void Blue_OnClick(object sender, RoutedEventArgs e)
-        {
-            SimplePaintViewModel.CurrentColour[0] = Convert.ToByte(255);
-            SimplePaintViewModel.CurrentColour[1] = Convert.ToByte(0);
-            SimplePaintViewModel.CurrentColour[2] = Convert.ToByte(0);
-        }
-
-        private void DarkGreen_OnClick(object sender, RoutedEventArgs e)
-        {
-            SimplePaintViewModel.CurrentColour[0] = Convert.ToByte(0);
-            SimplePaintViewModel.CurrentColour[1] = Convert.ToByte(100);
-            SimplePaintViewModel.CurrentColour[2] = Convert.ToByte(0);
-        }
-
-        private void Fuchsia_OnClick(object sender, RoutedEventArgs e)
-        {
-            SimplePaintViewModel.CurrentColour[0] = Convert.ToByte(255); 
-            SimplePaintViewModel.CurrentColour[1] = Convert.ToByte(0); 
-            SimplePaintViewModel.CurrentColour[2] = Convert.ToByte(255);
+            Button b = (Button) sender;
+            int index =  Convert.ToInt32(b.Name.Substring(1,b.Name.Length-1));
+            
+            
+            SimplePaintViewModel.CurrentColour[0] = SimplePaintViewModel.Colors[index].Color.B;
+            SimplePaintViewModel.CurrentColour[1] = SimplePaintViewModel.Colors[index].Color.G;
+            SimplePaintViewModel.CurrentColour[2] = SimplePaintViewModel.Colors[index].Color.R;
         }
 
         private void Clear(object sender, RoutedEventArgs e)
@@ -90,6 +80,7 @@ using Simple_Paint.ViewModel;
             SimplePaintViewModel.CreateImage();  
         }
 
+        #region Load Image
         private void OpenFile_OnClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -108,14 +99,14 @@ using Simple_Paint.ViewModel;
                 }
             }
         }
-
-        public static void OpenImage(BitmapSource b)
+        private static void OpenImage(BitmapSource b) 
         {
             SimplePaintViewModel.ImageData = new byte[b.PixelHeight* b.PixelWidth*(b.Format.BitsPerPixel/8)];
             b.CopyPixels(SimplePaintViewModel.ImageData,b.PixelWidth*(b.Format.BitsPerPixel/8),0);
             SimplePaintViewModel.CreateImage(b);
         }
-
+         
+        
         private static BitmapSource CreateFromPng( string path )
         {
             Stream imageStreamSource = new FileStream( path, FileMode.Open, FileAccess.Read, FileShare.Read );
@@ -151,6 +142,8 @@ using Simple_Paint.ViewModel;
             }
             return bmpSource;
         }
+        #endregion
+        
 
         private void New_OnClick(object sender, RoutedEventArgs e)
         {
@@ -178,7 +171,7 @@ using Simple_Paint.ViewModel;
 
         private void ReturnMove_OnClick(object sender, RoutedEventArgs e)
         {
-            SimplePaintViewModel.RedoMove();
+            SimplePaintViewModel.UndoMove();
         }
 
         private void SaveTemp(object sender, MouseButtonEventArgs mouseButtonEventArgs)

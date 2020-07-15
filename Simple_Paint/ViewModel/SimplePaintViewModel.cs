@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Simple_Paint.Annotations;
 using Simple_Paint.Command;
+using Color = System.Drawing.Color;
 
 namespace Simple_Paint.ViewModel
 {
@@ -46,19 +47,42 @@ namespace Simple_Paint.ViewModel
         public static ImageCommand Ic { get; set; }
         public static byte[] CurrentColour { get; set; }
         public static string Ptr { get; set; }
+        public static SolidColorBrush[] Colors { get; set; }
 
-        public List<TempImage> ImageSave { get; set; }
+        public Stack<TempImage> ImageSave { get; set; }
+        public BitmapSource FirstImagee { get; set; }
 
 
         public SimplePaintViewModel()
         {
-            ImageSave = new List<TempImage>();
-            new TempImage();
+            Colors = new SolidColorBrush[20];
+            Colors[0] = Brushes.Black;
+            Colors[1] = Brushes.Gray;
+            Colors[2] = Brushes.Brown;
+            Colors[3] = Brushes.Red;
+            Colors[4] = Brushes.DarkOrange;
+            Colors[5] = Brushes.Yellow;
+            Colors[6] = Brushes.Green;
+            Colors[7] = Brushes.Aqua;
+            Colors[8] = Brushes.Blue;
+            Colors[9] = Brushes.DarkViolet;
+            Colors[10] =Brushes.White;
+            Colors[11] =Brushes.LightSlateGray;
+            Colors[12] =Brushes.RosyBrown;
+            Colors[13] =Brushes.Plum;
+            Colors[14] =Brushes.Orange;
+            Colors[15] =Brushes.Bisque;
+            Colors[16] =Brushes.LightGreen;
+            Colors[17] =Brushes.LightBlue;
+            Colors[18] =Brushes.CadetBlue;
+            Colors[19] =Brushes.Violet;
+            ImageSave = new Stack<TempImage>();;
             CurrentColour = new byte[3];
             CurrentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
             Ic = new ImageCommand(this);
             NewImage(100,100);
             ImageStreched = Stretch.Uniform;
+            
         }
         public static void StartSavingTemp()
         {
@@ -72,7 +96,7 @@ namespace Simple_Paint.ViewModel
         {
             if (i == null)
             {
-                Ic.clearAll();
+                Ic.ClearAll();
                 Ic.CreateImage();
             }
             else
@@ -91,19 +115,16 @@ namespace Simple_Paint.ViewModel
             BytesPerPixel = 3;
             Stride = width * BytesPerPixel;
             ImageData = new byte[height * Stride];
-            Ic.clearAll();
+            Ic.clearInit();
             Ic.CreateNewImage();
         }
         public static void paint_Pixel(int x, int y)
         {
             Ic.paint_Pixel(x,y,Getptr());
         }
-        public static void RedoMove()
+        public static void UndoMove()
         {
-            if(TempImage.NewesPicIndex>0)
-            {
-                Ic.ReturnMove();
-            }
+            Ic.ReturnMove();
         }
         public static int Getptr()
         {
