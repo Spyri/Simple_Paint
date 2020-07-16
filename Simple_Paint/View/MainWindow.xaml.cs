@@ -38,7 +38,7 @@ using Simple_Paint.ViewModel;
                     Grid.SetColumn(newBtn,i);
                 }
 
-                newBtn.Click += Red_OnClick;
+                newBtn.Click += ColourButton_OnClick;
                 ColorPanel.Children.Add(newBtn);
                 
 
@@ -63,7 +63,7 @@ using Simple_Paint.ViewModel;
         }
 
 
-        private void Red_OnClick(object sender, RoutedEventArgs e)
+        private void ColourButton_OnClick(object sender, RoutedEventArgs e)
         {
             Button b = (Button) sender;
             int index =  Convert.ToInt32(b.Name.Substring(1,b.Name.Length-1));
