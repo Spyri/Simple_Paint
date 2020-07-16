@@ -6,14 +6,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Simple_Paint.Annotations;
 using Simple_Paint.Command;
-using Color = System.Drawing.Color;
 
 namespace Simple_Paint.ViewModel
 {
     public sealed class SimplePaintViewModel : INotifyPropertyChanged
     {
         private BitmapSource _imagesource;
-        private Stretch _imageStreched;
+        private Stretch _imageStretched;
 
         public BitmapSource Imagesource
         {
@@ -26,33 +25,32 @@ namespace Simple_Paint.ViewModel
             }
         }
 
-        public Stretch ImageStreched
+        public Stretch ImageStretched
         {
-            get => _imageStreched;
+            get => _imageStretched;
             set
             {
-                if (value == _imageStreched) return;
-                _imageStreched = value;
+                if (value == _imageStretched) return;
+                _imageStretched = value;
                 OnPropertyChanged();
             }
         }
 
         public static byte[] ImageData { get; set; }
         public static System.Windows.Controls.Image ToSave { get; set; }
-        public static int Width { get; set; }
-        public static int Height { get; set; }
+        public static int Width { get; private set; }
+        public static int Height { get; private set; }
         
         public static int BytesPerPixel { get; set; }
         public static int Stride { get; set; }
-        public static ImageCommand Ic { get; set; }
+        private static ImageCommand Ic { get; set; }
         public static byte[] CurrentColour { get; set; }
         public static string Ptr { get; set; }
-        public static SolidColorBrush[] Colors { get; set; }
+        public static SolidColorBrush[] Colors { get; private set; }
 
-        public Stack<TempImage> ImageSave { get; set; }
-        public BitmapSource FirstImagee { get; set; }
-
-
+        public Stack<TempImage> ImageSave { get; private set; }
+        public BitmapSource FirstImage { get; set; }
+        
         public SimplePaintViewModel()
         {
             Colors = new SolidColorBrush[20];
@@ -81,8 +79,7 @@ namespace Simple_Paint.ViewModel
             CurrentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
             Ic = new ImageCommand(this);
             NewImage(100,100);
-            ImageStreched = Stretch.Uniform;
-            
+            ImageStretched = Stretch.Uniform;
         }
         public static void StartSavingTemp()
         {
@@ -126,7 +123,8 @@ namespace Simple_Paint.ViewModel
         {
             Ic.ReturnMove();
         }
-        public static int Getptr()
+
+        private static int Getptr()
         {
             // ptr = Dicke des Stiftes
             int i = Convert.ToInt32(Ptr);

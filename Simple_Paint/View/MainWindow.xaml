@@ -73,7 +73,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Image HorizontalAlignment="Center" Stretch="{Binding ImageStreched}" VerticalAlignment="Center" Name="image"  RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove" MouseLeftButtonUp="SaveTemp"/>
+            <Image HorizontalAlignment="Center" Stretch="{Binding ImageStretched}" VerticalAlignment="Center" Name="image"  RenderOptions.BitmapScalingMode="NearestNeighbor" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Source="{Binding Imagesource}" MouseMove="UIElement_OnMouseMove" MouseLeftButtonDown="UIElement_OnMouseMove" MouseLeftButtonUp="SaveTemp"/>
         </Grid>
     </Grid>
 </Window>

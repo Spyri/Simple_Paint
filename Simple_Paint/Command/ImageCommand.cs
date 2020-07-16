@@ -3,7 +3,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Simple_Paint.ViewModel;
 
-
 namespace Simple_Paint.Command
 {
     public class ImageCommand
@@ -18,8 +17,8 @@ namespace Simple_Paint.Command
         public void ClearAll()
         {
             _simplePaintViewModel.ImageSave.Clear();
-            _simplePaintViewModel.FirstImagee.CopyPixels(SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride,0); 
-            _simplePaintViewModel.Imagesource = _simplePaintViewModel.FirstImagee; 
+            _simplePaintViewModel.FirstImage.CopyPixels(SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride,0); 
+            _simplePaintViewModel.Imagesource = _simplePaintViewModel.FirstImage; 
             _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource,SimplePaintViewModel.Stride));
         }
 
@@ -63,8 +62,8 @@ namespace Simple_Paint.Command
                 if(_simplePaintViewModel.ImageSave.Count-1 == 0)
                 {
                     _simplePaintViewModel.ImageSave.Clear();
-                    _simplePaintViewModel.FirstImagee.CopyPixels(SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride,0);
-                    _simplePaintViewModel.Imagesource = _simplePaintViewModel.FirstImagee;
+                    _simplePaintViewModel.FirstImage.CopyPixels(SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride,0);
+                    _simplePaintViewModel.Imagesource = _simplePaintViewModel.FirstImage;
                     _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource,SimplePaintViewModel.Stride));
                     return;
                 }
@@ -80,10 +79,10 @@ namespace Simple_Paint.Command
             _simplePaintViewModel.ImageSave.Clear();
             _simplePaintViewModel.Imagesource = BitmapSource.Create(SimplePaintViewModel.Width,SimplePaintViewModel.Height,400,400, PixelFormats.Bgr24, null,SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride);
             _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource,SimplePaintViewModel.Stride));
-            _simplePaintViewModel.FirstImagee = _simplePaintViewModel.Imagesource;
+            _simplePaintViewModel.FirstImage = _simplePaintViewModel.Imagesource;
         }
-        
-        public void UpdateImage()
+
+        private void UpdateImage()
         {
             _simplePaintViewModel.Imagesource = BitmapSource.Create(_simplePaintViewModel.Imagesource.PixelWidth, _simplePaintViewModel.Imagesource.PixelHeight, _simplePaintViewModel.Imagesource.DpiX,
                 _simplePaintViewModel.Imagesource.DpiY, _simplePaintViewModel.Imagesource.Format, _simplePaintViewModel.Imagesource.Palette, SimplePaintViewModel.ImageData, _simplePaintViewModel.Imagesource.PixelWidth*(_simplePaintViewModel.Imagesource.Format.BitsPerPixel/8));
@@ -97,14 +96,14 @@ namespace Simple_Paint.Command
             {
                 _simplePaintViewModel.ImageSave.Clear();
                 _simplePaintViewModel.Imagesource = BitmapSource.Create(image.PixelWidth,image.PixelHeight,image.DpiX,image.DpiY,image.Format, image.Palette,SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride);
-                _simplePaintViewModel.FirstImagee = _simplePaintViewModel.Imagesource;
+                _simplePaintViewModel.FirstImage = _simplePaintViewModel.Imagesource;
                 _simplePaintViewModel.ImageSave.Push((new TempImage(_simplePaintViewModel.Imagesource,_simplePaintViewModel.Imagesource.PixelWidth*_simplePaintViewModel.Imagesource.Format.BitsPerPixel/8)));
             }
         }
 
         public void ChangeStretched()
         {
-            _simplePaintViewModel.ImageStreched = _simplePaintViewModel.ImageStreched == Stretch.Uniform ? Stretch.Fill : Stretch.Uniform;
+            _simplePaintViewModel.ImageStretched = _simplePaintViewModel.ImageStretched == Stretch.Uniform ? Stretch.Fill : Stretch.Uniform;
         }
     }
 }
