@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -6,10 +6,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Simple_Paint.Annotations;
 using Simple_Paint.Command;
+using Simple_Paint.View;
 
 namespace Simple_Paint.ViewModel
 {
-    public sealed class SimplePaintViewModel : INotifyPropertyChanged
+    public class SimplePaintViewModel : INotifyPropertyChanged
     {
         private BitmapSource _imagesource;
         private Stretch _imageStretched;
@@ -38,11 +39,13 @@ namespace Simple_Paint.ViewModel
 
         public static byte[] ImageData { get; set; }
         public static System.Windows.Controls.Image ToSave { get; set; }
-        public static int Width { get; private set; }
-        public static int Height { get; private set; }
-        
-        public static int BytesPerPixel { get; set; }
-        public static int Stride { get; set; }
+
+        public int Width { get; set; }
+
+        public int Height { get; set; }
+
+        public int BytesPerPixel { get; set; }
+        private int Stride { get; set; }
         private static ImageCommand Ic { get; set; }
         public static byte[] CurrentColour { get; set; }
         public static string Ptr { get; set; }
@@ -50,9 +53,20 @@ namespace Simple_Paint.ViewModel
 
         public Stack<TempImage> ImageSave { get; private set; }
         public BitmapSource FirstImage { get; set; }
+        public static ButtonUndoCommand Buc { get; set; }
+        public StretchCommand Sc { get; set; }
+        public NewImageCommand NiC { get; set; }
+        public ClearCommand ClearCommand { get; set; }
+        public OpenFileCommand OpenFileCommand { get; set; }
+        public NewPageInput N { get; set; }
         
         public SimplePaintViewModel()
         {
+            OpenFileCommand = new OpenFileCommand(this);
+            ClearCommand = new ClearCommand(this);
+            NiC = new NewImageCommand(this);
+            Sc = new StretchCommand(this);
+            Buc = new ButtonUndoCommand(this);
             Colors = new SolidColorBrush[20];
             Colors[0] = Brushes.Black;
             Colors[1] = Brushes.Gray;
@@ -64,20 +78,22 @@ namespace Simple_Paint.ViewModel
             Colors[7] = Brushes.Aqua;
             Colors[8] = Brushes.Blue;
             Colors[9] = Brushes.DarkViolet;
-            Colors[10] =Brushes.White;
-            Colors[11] =Brushes.LightSlateGray;
-            Colors[12] =Brushes.RosyBrown;
-            Colors[13] =Brushes.Plum;
-            Colors[14] =Brushes.Orange;
-            Colors[15] =Brushes.Bisque;
-            Colors[16] =Brushes.LightGreen;
-            Colors[17] =Brushes.LightBlue;
-            Colors[18] =Brushes.CadetBlue;
-            Colors[19] =Brushes.Violet;
-            ImageSave = new Stack<TempImage>();;
+            Colors[10] = Brushes.White;
+            Colors[11] = Brushes.LightSlateGray;
+            Colors[12] = Brushes.RosyBrown;
+            Colors[13] = Brushes.Plum;
+            Colors[14] = Brushes.Orange;
+            Colors[15] = Brushes.Bisque;
+            Colors[16] = Brushes.LightGreen;
+            Colors[17] = Brushes.LightBlue;
+            Colors[18] = Brushes.CadetBlue;
+            Colors[19] = Brushes.Violet;
+            ImageSave = new Stack<TempImage>();
             CurrentColour = new byte[3];
-            CurrentColour = new[] {Convert.ToByte(0),Convert.ToByte(0),Convert.ToByte(0)};
+            CurrentColour = new[] {byte.MinValue,byte.MinValue,byte.MinValue};
             Ic = new ImageCommand(this);
+            Width = 100;
+            Height = 100;
             NewImage(100,100);
             ImageStretched = Stretch.Uniform;
         }
@@ -85,43 +101,26 @@ namespace Simple_Paint.ViewModel
         {
             Ic.SaveImage();
         }
-        public static void ChangeStretched()
+
+        public int GetStride()
         {
-            Ic.ChangeStretched();
+            return Stride;
         }
-        public static void CreateImage(BitmapSource i = null)
-        {
-            if (i == null)
-            {
-                Ic.ClearAll();
-                Ic.CreateImage();
-            }
-            else
-            {
-                Width = i.PixelWidth;
-                Height = i.PixelHeight;
-                BytesPerPixel= i.Format.BitsPerPixel/8;
-                Stride = BytesPerPixel * i.PixelWidth;
-                Ic.CreateImage(i);
-            }
-        }
+        
         public static void NewImage(int width, int height)
         {
-            Width = width;
-            Height = height;
-            BytesPerPixel = 3;
-            Stride = width * BytesPerPixel;
-            ImageData = new byte[height * Stride];
-            Ic.clearInit();
-            Ic.CreateNewImage();
+            ImageData = new byte[height * width*3];
+            Ic.ClearInit();
+            Ic.CreateNewImage(width,height);
         }
-        public static void paint_Pixel(int x, int y)
+        public static void PaintPixel(int x, int y)
         {
-            Ic.paint_Pixel(x,y,Getptr());
+            Ic.PaintPixel(x,y,Getptr());
         }
         public static void UndoMove()
         {
-            Ic.ReturnMove();
+            object e = null;
+            Buc.Execute(e);
         }
 
         private static int Getptr()
@@ -137,6 +136,11 @@ namespace Simple_Paint.ViewModel
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void SetStride(int stride)
+        {
+            Stride = stride;
         }
     }
 }

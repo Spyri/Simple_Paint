@@ -4,30 +4,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:vm="clr-namespace:Simple_Paint.ViewModel"
+        xmlns:command="clr-namespace:Simple_Paint.Command"
         mc:Ignorable="d"
-        Title="NewPageInput" Height="300" Width="400"  Icon="/ProgramIcon/Simple_PaintIcon.ico">
-   
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="130"/>
-            <ColumnDefinition Width="70"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Label Content="Width:" Grid.Row="1" Grid.Column="1"/>
-        <Label Content="Height:" Grid.Row="3" Grid.Column="1" />
-        <TextBox Name="Width" PreviewTextInput="UIElement_OnPreviewTextInput" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"/>
-        <TextBox Name="Height" PreviewTextInput="UIElement_OnPreviewTextInput" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"/>
-        <Button Grid.Row="5" Grid.Column="3" Content="Create" Click="ButtonBase_OnClick" />
-    </Grid>
+        Title="Simple_Paint" Height="300" Width="400" Icon="/ProgramIcon/Simple_PaintIcon.ico">
+    
+        <Window.Resources><command:ConvertSize x:Key="ConvertSize"/></Window.Resources>
+        <Window.DataContext>
+            <vm:NewPageInputViewModel/>
+        </Window.DataContext>
+        <Grid>
+        
+        
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        
+            <Label Content="Width:" Grid.Row="1" Grid.Column="1"/>
+            <Label Content="Height:" Grid.Row="3" Grid.Column="1" />
+            <TextBox Name="Width" Text= "{Binding Width, Converter={StaticResource ConvertSize}}" PreviewTextInput="UIElement_OnPreviewTextInput" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"/>
+            <TextBox Name="Height" Text= "{Binding Height,Converter={StaticResource ConvertSize}}" PreviewTextInput="UIElement_OnPreviewTextInput" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"/>
+            <Button Grid.Row="5" Grid.Column="3" Content="Create" Click="ButtonBase_OnClick" />
+        </Grid>
 </Window>

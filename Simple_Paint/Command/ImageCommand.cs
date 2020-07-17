@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Simple_Paint.ViewModel;
@@ -13,72 +13,56 @@ namespace Simple_Paint.Command
         {
             _simplePaintViewModel = simplePaintViewModel;
         }
+        
 
-        public void ClearAll()
-        {
-            _simplePaintViewModel.ImageSave.Clear();
-            _simplePaintViewModel.FirstImage.CopyPixels(SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride,0); 
-            _simplePaintViewModel.Imagesource = _simplePaintViewModel.FirstImage; 
-            _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource,SimplePaintViewModel.Stride));
-        }
-
-        public void clearInit()
+        public void ClearInit()
         {
             for (int i = 0; i < SimplePaintViewModel.ImageData.Length; i++)
             {
-                SimplePaintViewModel.ImageData[i] = Convert.ToByte(255);
+                SimplePaintViewModel.ImageData[i] = byte.MaxValue;
             }
         }
 
         public void SaveImage()
         {
-            _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource, _simplePaintViewModel.Imagesource.PixelWidth * (_simplePaintViewModel.Imagesource.Format.BitsPerPixel / 8)));
+            _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource, _simplePaintViewModel.GetStride()));
         }
 
-        public void paint_Pixel(int x,int y, int pt)
+        public void PaintPixel(int x,int y, int pt)
         {
             int j = 0;
-            int loop = pt;
+            int pixelWidth = _simplePaintViewModel.BytesPerPixel * pt;
+            int pixel = pt;
             y = y + 1;
-            while (loop != 0)
+            int xArrayPosition = x * _simplePaintViewModel.BytesPerPixel;
+            int actualPosition;
+            int yArrayPosition;
+            
+            for (int pixelOverY = pixel; pixelOverY > 0; pixelOverY--)
             {
-                int temp = ((y-loop) * SimplePaintViewModel.Stride) + x*SimplePaintViewModel.BytesPerPixel;
-                for (int i = temp; i < temp + SimplePaintViewModel.BytesPerPixel * pt && i < (y-loop)*SimplePaintViewModel.Stride+SimplePaintViewModel.Width*SimplePaintViewModel.BytesPerPixel; i++)
+                yArrayPosition = (y - pixelOverY) * _simplePaintViewModel.GetStride();
+                actualPosition = yArrayPosition + xArrayPosition;
+                for (int i = actualPosition; i < actualPosition + pixelWidth && i < yArrayPosition+_simplePaintViewModel.GetStride(); i++)
                 {
                     if (i < 0 || i > SimplePaintViewModel.ImageData.Length) continue;
                     SimplePaintViewModel.ImageData[i] = SimplePaintViewModel.CurrentColour[j];
-                    j++;
-                    if (j == SimplePaintViewModel.BytesPerPixel) j = 0;
+                    j++; 
+                    if (j == _simplePaintViewModel.BytesPerPixel) j = 0;
                 }
-                loop = loop - 1;
             }
             UpdateImage();
         }
+        
 
-        public void ReturnMove()
+        public void CreateNewImage(int width, int height)
         {
-            if (_simplePaintViewModel.ImageSave.Count-1 >= 0)
-            {
-                if(_simplePaintViewModel.ImageSave.Count-1 == 0)
-                {
-                    _simplePaintViewModel.ImageSave.Clear();
-                    _simplePaintViewModel.FirstImage.CopyPixels(SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride,0);
-                    _simplePaintViewModel.Imagesource = _simplePaintViewModel.FirstImage;
-                    _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource,SimplePaintViewModel.Stride));
-                    return;
-                }
-                _simplePaintViewModel.ImageSave.Pop();
-                var tempImage = _simplePaintViewModel.ImageSave.Peek();
-                SimplePaintViewModel.ImageData = tempImage.TempPixelData;
-                _simplePaintViewModel.Imagesource = BitmapSource.Create(tempImage.Tempbmp.PixelWidth, tempImage.Tempbmp.PixelHeight,tempImage.Tempbmp.DpiX,tempImage.Tempbmp.DpiY,tempImage.Tempbmp.Format,tempImage.Tempbmp.Palette,SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride);
-            }
-        }
-
-        public void CreateNewImage()
-        {
+            _simplePaintViewModel.BytesPerPixel = 3;
+            _simplePaintViewModel.SetStride(width * _simplePaintViewModel.BytesPerPixel);
+            _simplePaintViewModel.Width = width;
+            _simplePaintViewModel.Height = height;
             _simplePaintViewModel.ImageSave.Clear();
-            _simplePaintViewModel.Imagesource = BitmapSource.Create(SimplePaintViewModel.Width,SimplePaintViewModel.Height,400,400, PixelFormats.Bgr24, null,SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride);
-            _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource,SimplePaintViewModel.Stride));
+            _simplePaintViewModel.Imagesource = BitmapSource.Create(_simplePaintViewModel.Width,_simplePaintViewModel.Height,400,400, PixelFormats.Bgr24, null,SimplePaintViewModel.ImageData,_simplePaintViewModel.GetStride());
+            _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource,_simplePaintViewModel.GetStride()));
             _simplePaintViewModel.FirstImage = _simplePaintViewModel.Imagesource;
         }
 
@@ -87,23 +71,6 @@ namespace Simple_Paint.Command
             _simplePaintViewModel.Imagesource = BitmapSource.Create(_simplePaintViewModel.Imagesource.PixelWidth, _simplePaintViewModel.Imagesource.PixelHeight, _simplePaintViewModel.Imagesource.DpiX,
                 _simplePaintViewModel.Imagesource.DpiY, _simplePaintViewModel.Imagesource.Format, _simplePaintViewModel.Imagesource.Palette, SimplePaintViewModel.ImageData, _simplePaintViewModel.Imagesource.PixelWidth*(_simplePaintViewModel.Imagesource.Format.BitsPerPixel/8));
         }
-
-        public void CreateImage(BitmapSource image = null)
-        {
-            if(image == null)
-                UpdateImage();
-            else
-            {
-                _simplePaintViewModel.ImageSave.Clear();
-                _simplePaintViewModel.Imagesource = BitmapSource.Create(image.PixelWidth,image.PixelHeight,image.DpiX,image.DpiY,image.Format, image.Palette,SimplePaintViewModel.ImageData,SimplePaintViewModel.Stride);
-                _simplePaintViewModel.FirstImage = _simplePaintViewModel.Imagesource;
-                _simplePaintViewModel.ImageSave.Push((new TempImage(_simplePaintViewModel.Imagesource,_simplePaintViewModel.Imagesource.PixelWidth*_simplePaintViewModel.Imagesource.Format.BitsPerPixel/8)));
-            }
-        }
-
-        public void ChangeStretched()
-        {
-            _simplePaintViewModel.ImageStretched = _simplePaintViewModel.ImageStretched == Stretch.Uniform ? Stretch.Fill : Stretch.Uniform;
-        }
+        
     }
 }

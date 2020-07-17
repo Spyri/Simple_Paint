@@ -12,7 +12,6 @@ namespace Simple_Paint.View
         {
             InitializeComponent();
         }
-
         private void UIElement_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
