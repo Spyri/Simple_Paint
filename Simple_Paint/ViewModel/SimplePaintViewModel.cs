@@ -93,7 +93,7 @@ using System.Windows.Media.Imaging;
             Ic = new ImageCommand(this);
             Width = 100;
             Height = 100;
-            NewImage();
+            CreateNewImage(Width,Height);
             ImageStretched = Stretch.Uniform;
         }
 
@@ -159,20 +159,13 @@ using System.Windows.Media.Imaging;
         {
             Stride = stride;
         }
-        private void NewImage()
-        {
-            ImageData = new byte[Height * Width*3];
-            Ic.ClearInit(Width,Height);
-            Ic.CreateNewImage(Width,Height);
-        }
         public static void PaintPixel(int x, int y)
         {
             Ic.PaintPixel(x,y);
         }
         public static void UndoMove()
         {
-            object e = null;
-            Buc.Execute(e);
+            Buc.Execute(null);
         }
 
         public int Getptr()

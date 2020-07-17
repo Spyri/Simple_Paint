@@ -34,9 +34,6 @@ namespace Simple_Paint.Command
                 SaveAsJPEG();
             }
             Application.Current.Windows[1]?.Close();
-            
-            
-           
         }
 
         private void SaveAsPNG()
