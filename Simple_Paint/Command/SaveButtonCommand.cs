@@ -38,7 +38,8 @@ namespace Simple_Paint.Command
             
            
         }
-        public void SaveAsPNG()
+
+        private void SaveAsPNG()
         { 
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Image files (*.png)|*.png;*.jpeg|All files (*.*)|*.*";
@@ -51,19 +52,19 @@ namespace Simple_Paint.Command
                 stream.Close();
             }
         }
-            private void SaveAsJPEG()
+        private void SaveAsJPEG()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Image files ( *.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
+            if (saveFileDialog.ShowDialog() == true)
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "Image files ( *.jpeg)|*.png;*.jpeg|All files (*.*)|*.*";
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    var encoder = new JpegBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(SimplePaintViewModel.ToSave));
-                    FileStream stream = new FileStream(saveFileDialog.FileName.Substring(0,saveFileDialog.FileName.Length-4) + ".jpg", FileMode.Create);
-                    encoder.Save(stream);
-                    stream.Close();
-                }
+                var encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(SimplePaintViewModel.ToSave));
+                FileStream stream = new FileStream(saveFileDialog.FileName.Substring(0,saveFileDialog.FileName.Length-4) + ".jpg", FileMode.Create);
+                encoder.Save(stream);
+                stream.Close();
             }
+        }
         public event EventHandler CanExecuteChanged;
     }
 }

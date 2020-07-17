@@ -1,5 +1,4 @@
-﻿﻿using System;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Simple_Paint.ViewModel;
 
@@ -17,12 +16,12 @@ namespace Simple_Paint.Command
 
         public void ClearInit(int width, int height)
         {
-            byte[] TempPixel = new byte[height * width*3];
-            for (int i = 0; i < TempPixel.Length; i++)
+            byte[] tempPixel = new byte[height * width*3];
+            for (int i = 0; i < tempPixel.Length; i++)
             {
-                TempPixel[i] = byte.MaxValue;
+                tempPixel[i] = byte.MaxValue;
             }
-            _simplePaintViewModel.SetImageData(TempPixel);
+            _simplePaintViewModel.SetImageData(tempPixel);
         }
 
         public void SaveImage()
@@ -41,7 +40,7 @@ namespace Simple_Paint.Command
             int xArrayPosition = x * _simplePaintViewModel.GetBytesPerPixel();
             int actualPosition;
             int yArrayPosition;
-            byte[] PixelData = _simplePaintViewModel.GetImageData();
+            byte[] pixelData = _simplePaintViewModel.GetImageData();
             for (int pixelOverY = pixel; pixelOverY > 0; pixelOverY--)
             {
                 
@@ -49,13 +48,13 @@ namespace Simple_Paint.Command
                 actualPosition = yArrayPosition + xArrayPosition;
                 for (int i = actualPosition; i < actualPosition + pixelWidth && i < yArrayPosition+_simplePaintViewModel.GetStride(); i++)
                 {
-                    if (i < 0 || i > PixelData.Length) continue;
-                    PixelData[i] = SimplePaintViewModel.CurrentColour[j];
+                    if (i < 0 || i > pixelData.Length) continue;
+                    pixelData[i] = SimplePaintViewModel.CurrentColour[j];
                     j++; 
                     if (j == _simplePaintViewModel.GetBytesPerPixel()) j = 0;
                 }
             }
-            _simplePaintViewModel.SetImageData(PixelData);
+            _simplePaintViewModel.SetImageData(pixelData);
             _simplePaintViewModel.Imagesource = BitmapSource.Create(_simplePaintViewModel.Imagesource.PixelWidth, _simplePaintViewModel.Imagesource.PixelHeight, _simplePaintViewModel.Imagesource.DpiX,
                 _simplePaintViewModel.Imagesource.DpiY, _simplePaintViewModel.Imagesource.Format, _simplePaintViewModel.Imagesource.Palette, _simplePaintViewModel.GetImageData(), _simplePaintViewModel.Imagesource.PixelWidth*(_simplePaintViewModel.Imagesource.Format.BitsPerPixel/8));
         }

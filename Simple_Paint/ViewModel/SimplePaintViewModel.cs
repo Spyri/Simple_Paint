@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
- using System.Windows.Input;
  using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Simple_Paint.Annotations;
-using Simple_Paint.Command;
-using Simple_Paint.View;
+ using Simple_Paint.Command;
+ using Simple_Paint.Properties;
 
-namespace Simple_Paint.ViewModel
+ namespace Simple_Paint.ViewModel
 {
     public class SimplePaintViewModel : INotifyPropertyChanged
     {
@@ -65,7 +63,7 @@ namespace Simple_Paint.ViewModel
             BytesPerPixel = 3;
             OpenFileCommand = new OpenFileCommand(this);
             ClearCommand = new ClearCommand(this);
-            NiC = new NewImageCommand(this);
+            NiC = new NewImageCommand();
             Sc = new StretchCommand(this);
             Buc = new ButtonUndoCommand(this);
             Colors = new SolidColorBrush[20];
@@ -126,7 +124,6 @@ namespace Simple_Paint.ViewModel
         public void SetBytesPerPixel(int bytesPerPixel)
         {
             BytesPerPixel = bytesPerPixel;
-            ;
         }
 
         public int GetWidth()

@@ -5,7 +5,6 @@ using System.Windows;
  using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
- using Simple_Paint.Command;
  using Simple_Paint.ViewModel;
 
  namespace Simple_Paint.View
@@ -24,7 +23,7 @@ using System.Windows.Media.Imaging;
                 Button newBtn = new Button
                 {
                     Name = "b" +i.ToString(),
-                    Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(SimplePaintViewModel.Colors[i].Color.R,SimplePaintViewModel.Colors[i].Color.G,SimplePaintViewModel.Colors[i].Color.B)),
+                    Background = new SolidColorBrush(Color.FromRgb(SimplePaintViewModel.Colors[i].Color.R,SimplePaintViewModel.Colors[i].Color.G,SimplePaintViewModel.Colors[i].Color.B)),
                 };
                 if (i > 9)
                 {
@@ -53,10 +52,10 @@ using System.Windows.Media.Imaging;
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 Cursor = Cursors.Pen;
-                ImageSource bit = image.Source; 
+                ImageSource bit = Image.Source; 
                 BitmapSource bitmapSource = (BitmapSource) bit;
-                int x = (int) (e.GetPosition(image).X * bitmapSource.PixelWidth / image.ActualWidth);
-                int y = (int) (e.GetPosition(image).Y * bitmapSource.PixelHeight / image.ActualHeight);
+                int x = (int) (e.GetPosition(Image).X * bitmapSource.PixelWidth / Image.ActualWidth);
+                int y = (int) (e.GetPosition(Image).Y * bitmapSource.PixelHeight / Image.ActualHeight);
                 SimplePaintViewModel.PaintPixel(x, y);
             }
         }

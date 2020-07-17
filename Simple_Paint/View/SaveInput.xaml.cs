@@ -1,8 +1,6 @@
-﻿using System.Windows;
-
-namespace Simple_Paint.View
+﻿namespace Simple_Paint.View
 {
-    public partial class SaveInput : Window
+    public partial class SaveInput
     {
         public SaveInput()
         {

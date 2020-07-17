@@ -1,12 +1,9 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Windows;
+﻿using System.Text.RegularExpressions;
 using System.Windows.Input;
-using Simple_Paint.ViewModel;
 
 namespace Simple_Paint.View
 {
-    public partial class NewPageInput : Window
+    public partial class NewPageInput
     {
         public NewPageInput()
         {

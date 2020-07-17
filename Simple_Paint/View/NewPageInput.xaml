@@ -36,6 +36,6 @@
             <Label Content="Height:" Grid.Row="3" Grid.Column="1" />
             <TextBox Name="Width" Text= "{Binding Width, Converter={StaticResource ConvertSize}}" PreviewTextInput="UIElement_OnPreviewTextInput" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"/>
             <TextBox Name="Height" Text= "{Binding Height,Converter={StaticResource ConvertSize}}" PreviewTextInput="UIElement_OnPreviewTextInput" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"/>
-            <Button Grid.Row="5" Grid.Column="3" Content="Create" Command="{Binding b}" />
+            <Button Grid.Row="5" Grid.Column="3" Content="Create" Command="{Binding B}" />
         </Grid>
 </Window>

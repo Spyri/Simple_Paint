@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using Simple_Paint.View;
 using Simple_Paint.ViewModel;
 
 namespace Simple_Paint.Command

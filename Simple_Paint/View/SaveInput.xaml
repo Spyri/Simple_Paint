@@ -25,8 +25,8 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <RadioButton Name="PNGSave" IsChecked="{Binding PngSaveButton}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Save as PNG"/>
-        <RadioButton Name="JPEGSave" IsChecked="{Binding JpegSaveButton}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Save as JPEG"/>
+        <RadioButton Name="PngSave" IsChecked="{Binding PngSaveButton}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Save as PNG"/>
+        <RadioButton Name="JpegSave" IsChecked="{Binding JpegSaveButton}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Save as JPEG"/>
         <Button Content="Save" Grid.Column="2" Grid.Row="5" Command="{Binding Sbc}"/>
     </Grid>
 </Window>
