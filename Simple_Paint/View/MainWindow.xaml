@@ -58,7 +58,7 @@
                 <MenuItem Header="_File">
                     <MenuItem Header="_New" Command="{Binding NiC}"/>
                     <MenuItem Header="_Open" Command="{Binding OpenFileCommand}"/>
-                    <MenuItem Header="_Save Image" Click="Save_OnClick"/>
+                    <MenuItem Header="_Save Image" Command="{Binding Oswc}"/>
                     <MenuItem Header="_Exit" Click="Exit_OnClick"/>
                 </MenuItem>
                 <MenuItem Header="Edit">

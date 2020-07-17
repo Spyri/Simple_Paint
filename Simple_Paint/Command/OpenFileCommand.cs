@@ -43,15 +43,15 @@ namespace Simple_Paint.Command
 
         private void OpenImage(BitmapSource b)
         {
-            SimplePaintViewModel.ImageData = new byte[b.PixelHeight* b.PixelWidth*(b.Format.BitsPerPixel/8)];
-            b.CopyPixels(SimplePaintViewModel.ImageData,b.PixelWidth*(b.Format.BitsPerPixel/8),0);
-            _simplePaintViewModel.Width = b.PixelWidth;
-            _simplePaintViewModel.Height = b.PixelHeight;
-            _simplePaintViewModel.BytesPerPixel= b.Format.BitsPerPixel/8;
-            _simplePaintViewModel.SetStride(_simplePaintViewModel.BytesPerPixel * b.PixelWidth);
+            _simplePaintViewModel.SetImageData(new byte[b.PixelHeight* b.PixelWidth*(b.Format.BitsPerPixel/8)]);
+            b.CopyPixels(_simplePaintViewModel.GetImageData(),b.PixelWidth*(b.Format.BitsPerPixel/8),0);
+            _simplePaintViewModel.SetWidth(b.PixelWidth);
+            _simplePaintViewModel.SetHeight(b.PixelHeight);
+            _simplePaintViewModel.SetBytesPerPixel(b.Format.BitsPerPixel/8);
+            _simplePaintViewModel.SetStride(_simplePaintViewModel.GetBytesPerPixel() * b.PixelWidth);
             _simplePaintViewModel.ImageSave.Clear();
-            _simplePaintViewModel.Imagesource = BitmapSource.Create(b.PixelWidth,b.PixelHeight,b.DpiX,b.DpiY,b.Format, b.Palette,SimplePaintViewModel.ImageData,_simplePaintViewModel.GetStride());
-            _simplePaintViewModel.FirstImage = _simplePaintViewModel.Imagesource;
+            _simplePaintViewModel.Imagesource = BitmapSource.Create(b.PixelWidth,b.PixelHeight,b.DpiX,b.DpiY,b.Format, b.Palette,_simplePaintViewModel.GetImageData(),_simplePaintViewModel.GetStride());
+            _simplePaintViewModel.SetFirstImage(_simplePaintViewModel.Imagesource);
             _simplePaintViewModel.ImageSave.Push((new TempImage(_simplePaintViewModel.Imagesource,_simplePaintViewModel.Imagesource.PixelWidth*_simplePaintViewModel.Imagesource.Format.BitsPerPixel/8)));
         }
 
@@ -91,7 +91,7 @@ namespace Simple_Paint.Command
             }
             return bmpSource;
         }
-
+        
         public event EventHandler CanExecuteChanged;
     }
 }

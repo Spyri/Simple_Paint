@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:Simple_Paint.View"
+        xmlns:vm="clr-namespace:Simple_Paint.ViewModel"
         mc:Ignorable="d"
         Title="SaveInput" Height="200" Width="300"  Icon="/ProgramIcon/Simple_PaintIcon.ico">
+    <Window.DataContext>
+        <vm:SavePageViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -22,8 +25,8 @@
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <RadioButton Name="PNGSave" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Save as PNG"/>
-        <RadioButton Name="JPEGSave" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Save as JPEG"/>
-        <Button Content="Save" Grid.Column="2" Grid.Row="5" Click="CheckWhichType"/>
+        <RadioButton Name="PNGSave" IsChecked="{Binding PngSaveButton}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Save as PNG"/>
+        <RadioButton Name="JPEGSave" IsChecked="{Binding JpegSaveButton}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Save as JPEG"/>
+        <Button Content="Save" Grid.Column="2" Grid.Row="5" Command="{Binding Sbc}"/>
     </Grid>
 </Window>

@@ -48,15 +48,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\ButtonCreateCommand.cs" />
     <Compile Include="Command\ButtonUndoCommand.cs" />
     <Compile Include="Command\ClearCommand.cs" />
     <Compile Include="Command\ConvertSize.cs" />
     <Compile Include="Command\ImageCommand.cs" />
     <Compile Include="Command\NewImageCommand.cs" />
     <Compile Include="Command\OpenFileCommand.cs" />
+    <Compile Include="Command\OpenSaveWindowCommand.cs" />
+    <Compile Include="Command\SaveButtonCommand.cs" />
     <Compile Include="Command\StretchCommand.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\NewPageInputViewModel.cs" />
+    <Compile Include="ViewModel\SavePageViewModel.cs" />
     <Compile Include="ViewModel\SimplePaintViewModel.cs" />
     <Compile Include="ViewModel\TempImage.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

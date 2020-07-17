@@ -1,17 +1,16 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using Simple_Paint.View;
 using Simple_Paint.ViewModel;
 
 namespace Simple_Paint.Command
 {
-    public class NewImageCommand : ICommand
+    public class OpenSaveWindowCommand : ICommand
     {
         private readonly SimplePaintViewModel _simplePaintViewModel;
-        
 
-        public NewImageCommand(SimplePaintViewModel simplePaintViewModel)
+        public OpenSaveWindowCommand(SimplePaintViewModel simplePaintViewModel)
         {
             _simplePaintViewModel = simplePaintViewModel;
         }
@@ -23,8 +22,9 @@ namespace Simple_Paint.Command
 
         public void Execute(object parameter)
         {
-            NewPageInput n = new NewPageInput();
-            n.Show();
+            SaveInput save = new SaveInput();
+            SimplePaintViewModel.ToSave = _simplePaintViewModel.Imagesource;
+            save.Show();
         }
 
         public event EventHandler CanExecuteChanged;

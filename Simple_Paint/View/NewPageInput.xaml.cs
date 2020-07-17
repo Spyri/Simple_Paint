@@ -17,13 +17,6 @@ namespace Simple_Paint.View
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            int width = Convert.ToInt32(Width.Text);
-            int height = Convert.ToInt32(Height.Text);
-            SimplePaintViewModel.NewImage(width,height);
-            Close();
-        }
+        
     }
 }
