@@ -45,20 +45,26 @@ using System.Windows.Media.Imaging;
         private int BytesPerPixel { get; set; }
         private int Stride { get; set; }
         private static ImageCommand Ic { get; set; }
-        public static byte[] CurrentColour { get; set; }
+        public  byte[] CurrentColour { get; set; }
         public string Ptr { get; set; }
-        public static SolidColorBrush[] Colors { get; private set; }
+        public SolidColorBrush[] Colors { get; private set; }
         public Stack<TempImage> ImageSave { get; private set; }
         private BitmapSource FirstImage { get; set; }
-        public static ButtonUndoCommand Buc { get; set; }
+        public ButtonUndoCommand Buc { get; set; }
         public StretchCommand Sc { get; set; }
         public NewImageCommand NiC { get; set; }
         public ClearCommand ClearCommand { get; set; }
         public OpenFileCommand OpenFileCommand { get; set; }
         public OpenSaveWindowCommand Oswc { get; set; }
+        public MouseCommand MouseCommand { get; set; }
+        public MouseCommandSave MouseCommandSave { get; set; }
+        public ChangeButtonColor Cbc { get; set; }
 
         public SimplePaintViewModel()
         {
+            Cbc = new ChangeButtonColor(this);
+            MouseCommandSave = new MouseCommandSave(this);
+            MouseCommand = new MouseCommand(this);
             Oswc = new OpenSaveWindowCommand(this);
             BytesPerPixel = 3;
             OpenFileCommand = new OpenFileCommand(this);
@@ -145,10 +151,6 @@ using System.Windows.Media.Imaging;
         {
             Height = height;
         }
-        public static void StartSavingTemp()
-        {
-            Ic.SaveImage();
-        }
 
         public int GetStride()
         {
@@ -158,14 +160,6 @@ using System.Windows.Media.Imaging;
         public void SetStride(int stride)
         {
             Stride = stride;
-        }
-        public static void PaintPixel(int x, int y)
-        {
-            Ic.PaintPixel(x,y);
-        }
-        public static void UndoMove()
-        {
-            Buc.Execute(null);
         }
 
         public int Getptr()

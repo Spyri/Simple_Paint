@@ -1,11 +1,9 @@
-﻿﻿using System;
- using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
  using System.Windows.Controls;
  using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
- using Simple_Paint.ViewModel;
+using Simple_Paint.ViewModel;
 
  namespace Simple_Paint.View
 {
@@ -18,12 +16,13 @@ using System.Windows.Media.Imaging;
         {
             
             InitializeComponent();
+            SimplePaintViewModel f = DataContext as SimplePaintViewModel;
             for (int i = 0; i < 20; i++)
             {
                 Button newBtn = new Button
                 {
                     Name = "b" +i.ToString(),
-                    Background = new SolidColorBrush(Color.FromRgb(SimplePaintViewModel.Colors[i].Color.R,SimplePaintViewModel.Colors[i].Color.G,SimplePaintViewModel.Colors[i].Color.B)),
+                    Background = new SolidColorBrush(Color.FromRgb(f.Colors[i].Color.R,f.Colors[i].Color.G,f.Colors[i].Color.B)),
                 };
                 if (i > 9)
                 {
@@ -35,42 +34,15 @@ using System.Windows.Media.Imaging;
                     Grid.SetRow(newBtn,0);
                     Grid.SetColumn(newBtn,i);
                 }
-
-                newBtn.Click += ColourButton_OnClick;
+                newBtn.Command = f.Cbc;
+                newBtn.CommandParameter = i;
                 ColorPanel.Children.Add(newBtn);
-                
-
             }
-            RoutedCommand cmdredo = new RoutedCommand();
-            cmdredo.InputGestures.Add(new KeyGesture(Key.Z, ModifierKeys.Control));
-            CommandBindings.Add(new CommandBinding(cmdredo, ReturnMove_OnClick));
+            KeyGesture undo = new KeyGesture(Key.Z, ModifierKeys.Control);
+            KeyBinding undoBinding = new KeyBinding(f.Buc, undo);
+            this.InputBindings.Add(undoBinding);
         }
 
-        private void UIElement_OnMouseMove(object sender, MouseEventArgs e)
-        {
-            Cursor = Cursors.Arrow;
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                Cursor = Cursors.Pen;
-                ImageSource bit = Image.Source; 
-                BitmapSource bitmapSource = (BitmapSource) bit;
-                int x = (int) (e.GetPosition(Image).X * bitmapSource.PixelWidth / Image.ActualWidth);
-                int y = (int) (e.GetPosition(Image).Y * bitmapSource.PixelHeight / Image.ActualHeight);
-                SimplePaintViewModel.PaintPixel(x, y);
-            }
-        }
-
-
-        private void ColourButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            Button b = (Button) sender;
-            int index =  Convert.ToInt32(b.Name.Substring(1,b.Name.Length-1));
-            
-            SimplePaintViewModel.CurrentColour[0] = SimplePaintViewModel.Colors[index].Color.B;
-            SimplePaintViewModel.CurrentColour[1] = SimplePaintViewModel.Colors[index].Color.G;
-            SimplePaintViewModel.CurrentColour[2] = SimplePaintViewModel.Colors[index].Color.R;
-        }
-        
         private void Exit_OnClick(object sender, RoutedEventArgs e)
         {
             Close();
@@ -81,16 +53,5 @@ using System.Windows.Media.Imaging;
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
-
-        private void ReturnMove_OnClick(object sender, RoutedEventArgs e)
-        {
-            SimplePaintViewModel.UndoMove();
-        }
-
-        private void SaveTemp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
-        {
-            SimplePaintViewModel.StartSavingTemp();
-        }
-        
     }
 }

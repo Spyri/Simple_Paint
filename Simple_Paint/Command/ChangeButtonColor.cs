@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Windows.Input;
-using Simple_Paint.View;
 using Simple_Paint.ViewModel;
 
 namespace Simple_Paint.Command
 {
-    public class OpenSaveWindowCommand : ICommand
+    public class ChangeButtonColor : ICommand
     {
         private readonly SimplePaintViewModel _simplePaintViewModel;
 
-        public OpenSaveWindowCommand(SimplePaintViewModel simplePaintViewModel)
+        public ChangeButtonColor(SimplePaintViewModel simplePaintViewModel)
         {
             _simplePaintViewModel = simplePaintViewModel;
         }
@@ -21,12 +20,12 @@ namespace Simple_Paint.Command
 
         public void Execute(object parameter)
         {
-            SaveInput save = new SaveInput();
-            SimplePaintViewModel.ToSave = _simplePaintViewModel.Imagesource;
-            save.Show();
+            int i = (int) parameter;
+            _simplePaintViewModel.CurrentColour[0] = _simplePaintViewModel.Colors[i].Color.B;
+            _simplePaintViewModel.CurrentColour[1] = _simplePaintViewModel.Colors[i].Color.G;
+            _simplePaintViewModel.CurrentColour[2] = _simplePaintViewModel.Colors[i].Color.R;
         }
 
-        
         public event EventHandler CanExecuteChanged;
     }
 }

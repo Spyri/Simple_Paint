@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C041C0A7-56D5-4B9E-BA75-D9BCCE6CE5F7}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Simple_Paint</RootNamespace>
     <AssemblyName>Simple_Paint</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -58,9 +58,12 @@
     </ApplicationDefinition>
     <Compile Include="Command\ButtonCreateCommand.cs" />
     <Compile Include="Command\ButtonUndoCommand.cs" />
+    <Compile Include="Command\ChangeButtonColor.cs" />
     <Compile Include="Command\ClearCommand.cs" />
     <Compile Include="Command\ConvertSize.cs" />
     <Compile Include="Command\ImageCommand.cs" />
+    <Compile Include="Command\MouseCommand.cs" />
+    <Compile Include="Command\MouseCommandSave.cs" />
     <Compile Include="Command\NewImageCommand.cs" />
     <Compile Include="Command\OpenFileCommand.cs" />
     <Compile Include="Command\OpenSaveWindowCommand.cs" />

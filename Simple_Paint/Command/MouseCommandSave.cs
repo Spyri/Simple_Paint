@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Windows.Input;
-using Simple_Paint.View;
 using Simple_Paint.ViewModel;
 
 namespace Simple_Paint.Command
 {
-    public class OpenSaveWindowCommand : ICommand
+    public class MouseCommandSave : ICommand
     {
         private readonly SimplePaintViewModel _simplePaintViewModel;
 
-        public OpenSaveWindowCommand(SimplePaintViewModel simplePaintViewModel)
+        public MouseCommandSave(SimplePaintViewModel simplePaintViewModel)
         {
             _simplePaintViewModel = simplePaintViewModel;
         }
@@ -21,12 +20,9 @@ namespace Simple_Paint.Command
 
         public void Execute(object parameter)
         {
-            SaveInput save = new SaveInput();
-            SimplePaintViewModel.ToSave = _simplePaintViewModel.Imagesource;
-            save.Show();
+            _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource, _simplePaintViewModel.GetStride()));
         }
 
-        
         public event EventHandler CanExecuteChanged;
     }
 }

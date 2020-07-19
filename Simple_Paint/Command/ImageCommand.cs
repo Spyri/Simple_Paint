@@ -24,41 +24,6 @@ namespace Simple_Paint.Command
             _simplePaintViewModel.SetImageData(tempPixel);
         }
 
-        public void SaveImage()
-        {
-            _simplePaintViewModel.ImageSave.Push(new TempImage(_simplePaintViewModel.Imagesource, _simplePaintViewModel.GetStride()));
-        }
-        
-
-        public void PaintPixel(int x,int y)
-        {
-            int pt = _simplePaintViewModel.Getptr();
-            int j = 0;
-            int pixelWidth = _simplePaintViewModel.GetBytesPerPixel() * pt;
-            int pixel = pt;
-            y = y + 1;
-            int xArrayPosition = x * _simplePaintViewModel.GetBytesPerPixel();
-            int actualPosition;
-            int yArrayPosition;
-            byte[] pixelData = _simplePaintViewModel.GetImageData();
-            for (int pixelOverY = pixel; pixelOverY > 0; pixelOverY--)
-            {
-                
-                yArrayPosition = (y - pixelOverY) * _simplePaintViewModel.GetStride();
-                actualPosition = yArrayPosition + xArrayPosition;
-                for (int i = actualPosition; i < actualPosition + pixelWidth && i < yArrayPosition+_simplePaintViewModel.GetStride(); i++)
-                {
-                    if (i < 0 || i > pixelData.Length) continue;
-                    pixelData[i] = SimplePaintViewModel.CurrentColour[j];
-                    j++; 
-                    if (j == _simplePaintViewModel.GetBytesPerPixel()) j = 0;
-                }
-            }
-            _simplePaintViewModel.SetImageData(pixelData);
-            _simplePaintViewModel.Imagesource = BitmapSource.Create(_simplePaintViewModel.Imagesource.PixelWidth, _simplePaintViewModel.Imagesource.PixelHeight, _simplePaintViewModel.Imagesource.DpiX,
-                _simplePaintViewModel.Imagesource.DpiY, _simplePaintViewModel.Imagesource.Format, _simplePaintViewModel.Imagesource.Palette, _simplePaintViewModel.GetImageData(), _simplePaintViewModel.Imagesource.PixelWidth*(_simplePaintViewModel.Imagesource.Format.BitsPerPixel/8));
-        }
-        
 
         public void CreateNewImage(int width, int height)
         {
